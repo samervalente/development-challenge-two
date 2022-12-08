@@ -1,5 +1,13 @@
-* {
-  box-sizing: border-box;
+
+
+:root {
+  --blue:#002137,
+  --lightBlue:#016EA5,
+  --gray:#9E9E9E
+}
+
+.iu{
+  color:'red'
 }
 
 body {
