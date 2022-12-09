@@ -8,6 +8,11 @@ const Container = styled.div`
   width: 100%;
   gap: 15px;
 
+  nav {
+    display: flex;
+    gap: 10px;
+  }
+
   h1 {
     font-size: 35px;
     color: #002137;
@@ -19,18 +24,30 @@ const Container = styled.div`
   }
 `;
 
-const DeleteButton = styled.button`
-  display: ${(props) => (props.selectionModel.length > 0 ? "block" : "none")};
-  background-color: red;
-  color:white;
-  border:none;
-  padding:10px;
+const Button = styled.button`
+  color: white;
+  border: none;
+  padding: 10px;
   border-radius: 5px;
   font-size: 14px;
   transition: all linear 0.3s;
-  :hover{
+  background-color: ${(props) => (props.primary ? "#016EA5" : "orange")};
+
+  :hover {
     background-color: rebeccapurple;
   }
 `;
 
-export { Container, DeleteButton };
+const DeleteButton = styled(Button)`
+  display: ${(props) => (props.selectionModel.length > 0 ? "block" : "none")};
+  background-color: red;
+`;
+
+const UpdateButton = styled(Button)`
+  display: ${(props) => (props.selectionModel.length === 1 ? "block" : "none")};
+`;
+
+
+
+
+export { Container, Button, DeleteButton, UpdateButton };

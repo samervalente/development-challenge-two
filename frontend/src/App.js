@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import LeftBar from "./components/LeftBar";
+import NavBar from "./components/NavBar";
 import MyPatients from "./pages/MyPatients";
 import RegisterPatients from "./pages/RegisterPatients";
 
@@ -14,7 +14,7 @@ function App() {
       <Container>
         <ToastContainer />
         <BrowserRouter>
-          <LeftBar />
+          <NavBar />
           <Routes>
             <Route path="/" element={<MyPatients />} />
             <Route path="/patients/register" element={<RegisterPatients />} />
