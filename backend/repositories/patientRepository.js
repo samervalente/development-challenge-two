@@ -26,4 +26,23 @@ async function insertPatientData(requestBody) {
   await dynamoClient.put(params).promise();
 }
 
-module.exports = { getPatientByEmail, insertPatientData };
+async function getPatients(){
+  const params = {
+    TableName: dynamoDBTableName,
+  };
+
+  const allPatients = await scanDynamoRecords(params, []);
+  return allPatients
+}
+
+async function scanDynamoRecords(params, records) {
+    const dynamoData = await dynamoClient.scan(params).promise();
+    records = records.concat(dynamoData.Items);
+    if (dynamoData.LastEvaluatedKey) {
+      params.ExclusiveStartkey = dynamoData.LastEvaluatedKey;
+      return await scanDynamoRecords(params, records);
+    }
+    return records;
+}
+
+module.exports = { getPatientByEmail, insertPatientData, getPatients };

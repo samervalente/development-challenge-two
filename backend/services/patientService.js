@@ -12,4 +12,9 @@ async function insertPatientData(requestBody) {
   await patientRepository.insertPatientData(requestBody);
 }
 
-module.exports = { insertPatientData };
+async function getPatients() {
+  const patients = await patientRepository.getPatients();
+  return patients;
+}
+
+module.exports = { insertPatientData, getPatients };

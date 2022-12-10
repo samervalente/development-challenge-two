@@ -6,4 +6,13 @@ async function registerPatientData(req, res) {
   res.status(201).send("Patient registered successfully.");
 }
 
-module.exports(registerPatientData);
+async function getAllPatients(req, res, next) {
+  try {
+      const patients = await getPatients()
+      res.status(200).send({patients})
+  } catch (error) {
+      next(error)
+  }
+}
+
+module.exports(registerPatientData, getAllPatients);
