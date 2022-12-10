@@ -10,6 +10,7 @@ const {
   getAllPatients,
   getPatientById,
   updatePatientData,
+  deletePatientData
 } = require("../controllers/patientController");
 
 const patientRouter = Router();
@@ -30,5 +31,11 @@ patientRouter.patch(
   validatePatientUpdateRequestBody,
   updatePatientData
 );
+
+patientRouter.delete(
+  "/",
+  deletePatientData
+);
+
 
 module.exports = patientRouter;

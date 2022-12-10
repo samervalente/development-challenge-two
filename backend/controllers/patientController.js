@@ -58,4 +58,20 @@ async function updatePatientData(req, res) {
   }
 }
 
-module.exports = {registerPatientData, getAllPatients, getPatientById, updatePatientData}
+async function deletePatientData(req, res) {
+  try {
+    const {patients} = req.body;
+    
+    const response = await patientService.deletePatientData(patients);
+    if (response?.error) {
+      const { statusCode } = response.error;
+      return res.status(statusCode).send(response.error);
+    }
+  
+    return res.status(200).send("Patient(s) deleted successfully.");
+  } catch (error) {
+    res.sendStatus(500);
+  }
+}
+
+module.exports = {registerPatientData, getAllPatients, getPatientById, updatePatientData, deletePatientData}

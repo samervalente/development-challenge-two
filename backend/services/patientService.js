@@ -1,47 +1,67 @@
-const { conflictError } = require("../utils/errorUtils");
+const { conflictError, notFoundError } = require("../utils/errorUtils");
 const patientRepository = require("../repositories/patientRepository");
 
 async function insertPatientData(requestBody) {
-  const patient = await patientRepository.getPatientByEmail(requestBody.email);
+  const {Items} = await patientRepository.getPatientByEmail(requestBody.email);
 
-  if (patient.Items.length > 0) {
-    const error = conflictError("Patient already exists with this email.");
-    return { error };
+  if (Items.length > 0) {
+       const error = conflictError("Patient already exists with this email.");
+      return { error };
   }
 
-  await patientRepository.insertPatientData(requestBody);
+  return await patientRepository.insertPatientData(requestBody);
 }
 
 async function getPatients() {
-  const patients = await patientRepository.getPatients();
-  return patients;
+  const patients = await patientRepository.getPatients()
+  return patients
 }
 
-async function getPatientById(patientId) {
-  const { Item } = await patientRepository.getPatientById(patientId);
-
-  if (!Item) {
+async function getPatientById(patientId){
+  const {Item} = await patientRepository.getPatientById(patientId);
+  
+  if(!Item){
     const error = notFoundError("Patient not found");
-    return { error };
+     return { error };
   }
 
-  return Item;
+  return Item
 }
 
-async function updatePatientData(patientId, newPatientData) {
-  const { Item } = await patientRepository.getPatientById(patientId);
-
-  if (!Item) {
+async function updatePatientData(patientId, newPatientData){
+  const {Item} = await patientRepository.getPatientById(patientId);
+  
+  if(!Item){
     const error = notFoundError("Patient not found");
-    return { error };
+     return { error };
   }
+  
+  const {updateValue} = newPatientData.find(newValue => newValue.updateKey === "email")
+  
+  const {Items} = await patientRepository.getPatientByEmail(updateValue);
 
-  return await patientRepository.updatePatientData(patientId, newPatientData);
+  if (Items.length > 0) {
+       const error = conflictError("Patient already exists with this email.");
+      return { error };
+  }
+  
+  return await patientRepository.updatePatientData(patientId, newPatientData)
 }
 
-module.exports = {
-  insertPatientData,
-  getPatients,
-  getPatientById,
-  updatePatientData,
-};
+
+async function deletePatientData(patients){
+
+
+    for(let patientId of patients){
+      const {Item} = await patientRepository.getPatientById(patientId);
+  
+  if(!Item){
+    const error = notFoundError("Patient not found");
+     return { error };
+  }
+    }
+     return await patientRepository.deletePatientData(patients);
+   
+}
+
+module.exports = { insertPatientData, getPatients, getPatientById, updatePatientData, deletePatientData };
