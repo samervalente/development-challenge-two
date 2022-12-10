@@ -2,6 +2,7 @@ const serverless = require("serverless-http");
 const express = require("express");
 const cors = require("cors");
 const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
+const patientRouter = require("./routes/patientRouter");
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(patientRouter);
 app.use(errorHandlerMiddleware);
 
 app.get("/health", (req, res) => {

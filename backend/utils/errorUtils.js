@@ -8,8 +8,6 @@ export function errorTypeToStatusCode(type) {
       return 409;
     case "not_found":
       return 404;
-    case "unauthorized":
-      return 401;
     case "wrong_schema":
       return 422;
 
@@ -19,19 +17,15 @@ export function errorTypeToStatusCode(type) {
 }
 
 function conflictError(message) {
-  return { type: "conflict", message: message ?? "" };
+  return { type: "conflict", statusCode: 409, message: message ?? "" };
 }
 
 function notFoundError(message) {
-  return { type: "not_found", message: message ?? "" };
-}
-
-function unauthorizedError(message) {
-  return { type: "unauthorized", message: message ?? "" };
+  return { type: "not_found", statusCode: 404, message: message ?? "" };
 }
 
 function wrongSchemaError(message) {
-  return { type: "wrong_schema", message: message ?? "" };
+  return { type: "wrong_schema", statusCode: 422, message: message ?? "" };
 }
 
 module.exports = {
