@@ -18,7 +18,13 @@ async function registerPatientData(payload) {
     toast.success("Paciente registrado com sucesso.");
     return data;
   } catch (error) {
-    toast.error("Não foi possível registrar o paciente.");
+    if (error.response.status === 409) {
+      toast.error("Este email já está cadastrado no sistema.");
+    } else if (error.response.status === 422) {
+      toast.error("Dados inválidos, por favor verifique.");
+    }
+
+    return { error: error.response };
   }
 }
 
@@ -34,11 +40,15 @@ async function getPatientById(patientId) {
 async function updatePatientData(patientId, newPatientData) {
   try {
     await api.patch(`/patients/${patientId}`, newPatientData);
-    toast.success(
-      "Os dados do paciente foram atualizados com sucesso. Redirecionando..."
-    );
+    toast.success("Os dados do paciente foram atualizados com sucesso.");
   } catch (error) {
-    toast.error("Não foi possível atualizar os dados do paciente.");
+    if (error.response.status === 409) {
+      toast.error("Este email já está cadastrado no sistema.");
+    } else if (error.response.status === 422) {
+      toast.error("Dados inválidos, por favor verifique.");
+    }
+
+    return { error: error.response };
   }
 }
 
@@ -46,7 +56,7 @@ async function deletePatientsData(payload) {
   try {
     const body = { data: payload };
     await api.delete("/patients", body);
-    const toastSucessMessage = `Sucesso ao deletar ${
+    const toastSucessMessage = `Sucesso ao remover ${
       payload.patients.length > 1 ? "os pacientes" : "o paciente"
     }`;
     toast.success(toastSucessMessage);

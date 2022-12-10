@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { RegisterButton } from "../../pages/RegisterPatients/styles";
 import TextField from "@mui/material/TextField";
-import dayjs from "dayjs";
 import StyledForm from "../../components/Form";
 import { registerPatientData } from "../../services/patients";
 import formatDayJSDate from "../../utils/dateUtils";
 
-export default function RegisterPatientForm() {
+export default function RegisterPatientForm({setOpenBackdrop}) {
   const [patientData, setPatientData] = useState({
     patientName: "",
     email: "",
@@ -16,7 +15,9 @@ export default function RegisterPatientForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setOpenBackdrop(true)
     await registerPatientData(patientData);
+    setOpenBackdrop(false)
   }
 
   return (

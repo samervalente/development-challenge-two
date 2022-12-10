@@ -4,11 +4,39 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 25px;
-  width: 50%;
+  width: 300px;
 
   div {
     display: flex;
     gap: 25px;
+  }
+
+  .emailEdit {
+    align-items: center;
+
+    .icon {
+      font-size: 20px;
+      cursor: pointer;
+      transition: all linear 0.2s;
+      border-radius: 4px;
+
+      :hover {
+        background-color: lightblue;
+      }
+    }
+
+    .editIcon {
+      color: blue;
+    }
+
+    .checkIcon{
+      color:green;
+    }
+
+    .closeIcon {
+      display: ${props => (props.isEmailEditing ? "none" : "block")};
+      color: red;
+    }
   }
 
   .birthDateSection {

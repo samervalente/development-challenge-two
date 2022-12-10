@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 import { StyledContainer, DeleteButton, UpdateButton } from "./styles";
 import { getAllPatients, deletePatientsData } from "../../services/patients";
 import Modal from "@mui/material/Modal";
-import Backdrop from "@mui/material/Backdrop";
+import { Backdrop } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
 import UpdatePatientsForm from "./UpdatePatientsForm";
 
 export default function MyPatients() {
   const [selectionModel, setSelectionModel] = useState([]);
   const [fetchDependecy, setFetchDependecy] = useState(false);
   const [patients, setPatients] = useState([]);
-  const [openModal, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
@@ -56,13 +57,15 @@ export default function MyPatients() {
   ];
 
   async function updatePatientList() {
-    setFetchDependecy(true);
+    setFetchDependecy(!fetchDependecy);
   }
 
   async function deletePatients() {
     const body = { patients: selectionModel };
+    setOpenBackdrop(true);
     await deletePatientsData(body);
     await updatePatientList();
+    setOpenBackdrop(false);
   }
 
   return (
@@ -72,11 +75,17 @@ export default function MyPatients() {
         Aqui você pode ver e gerenciar todos seus pacientes cadastrados. Faça
         também modificações como atualizar e excluir seus respectivos dados.{" "}
       </p>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={openModal}
-        onClose={() => setOpen(false)}
+        onClose={() => setOpenModal(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -86,15 +95,11 @@ export default function MyPatients() {
         <Fade in={openModal}>
           <Box sx={style}>
             <div>
-              <UpdatePatientsForm patientId={selectionModel[0]} />
-              <Button
-                onClick={() => {
-                  setOpen(false);
-                  setSelectionModel([]);
-                }}
-              >
-                Cancelar
-              </Button>
+              <UpdatePatientsForm
+                patientId={selectionModel[0]}
+                setOpenModal={setOpenModal}
+                updatePatientList={updatePatientList}
+              />
             </div>
           </Box>
         </Fade>
@@ -102,7 +107,7 @@ export default function MyPatients() {
       <nav>
         <UpdateButton
           selectionModel={selectionModel}
-          onClick={() => setOpen(true)}
+          onClick={() => setOpenModal(true)}
           primary
         >
           Editar dados do paciente

@@ -26,14 +26,12 @@ const RegisterButton = styled.button`
   border-radius: 5px;
   font-size: 14px;
   transition: all linear 0.3s;
-  background-color: #016ea5;
+  background-color: ${(props) => (props.isButtonDisabled ? "gray" : "#016ea5")};
   margin-top: 15px;
 
   :hover {
     filter: brightness(80%);
   }
 `;
-
-
 
 export { Container, RegisterButton };

@@ -39,12 +39,13 @@ const Button = styled.button`
 `;
 
 const DeleteButton = styled(Button)`
-  display: ${(props) => (props.selectionModel.length > 0 ? "block" : "none")};
+  display: ${(props) => (props.selectionModel?.length > 0 ? "block" : "none")};
   background-color: red;
 `;
 
 const UpdateButton = styled(Button)`
-  display: ${(props) => (props.selectionModel.length === 1 ? "block" : "none")};
+  display: ${(props) =>
+    props.selectionModel?.length === 1 ? "block" : "none"};
 `;
 
 export { StyledContainer, Button, DeleteButton, UpdateButton };
