@@ -17,4 +17,15 @@ async function getPatients() {
   return patients;
 }
 
-module.exports = { insertPatientData, getPatients };
+async function getPatientById(patientId){
+  const {Item} = await patientRepository.getPatientById(patientId);
+  
+  if(!Item){
+    const error = notFoundError("Patient not found");
+     return { error };
+  }
+
+  return Item
+}
+
+module.exports = { insertPatientData, getPatients, getPatientById };

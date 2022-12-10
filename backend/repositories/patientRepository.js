@@ -45,4 +45,15 @@ async function scanDynamoRecords(params, records) {
     return records;
 }
 
-module.exports = { getPatientByEmail, insertPatientData, getPatients };
+async function getPatientById(patientId) {
+  const params = {
+    TableName: dynamoDBTableName,
+    Key: {
+      'patientId': patientId,
+    },
+  };
+  const patient = await dynamoClient.get(params).promise();
+  return patient;
+}
+
+module.exports = { getPatientByEmail, insertPatientData, getPatients, getPatientById };

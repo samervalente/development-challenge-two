@@ -33,6 +33,5 @@ module.exports = {
   errorTypeToStatusCode,
   conflictError,
   notFoundError,
-  unauthorizedError,
   wrongSchemaError,
 };

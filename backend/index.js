@@ -18,8 +18,4 @@ app.use((req, res, next) => {
 app.use(patientRouter);
 app.use(errorHandlerMiddleware);
 
-app.get("/health", (req, res) => {
-  res.status(200).send("ok");
-});
-
 module.exports.handler = serverless(app);
