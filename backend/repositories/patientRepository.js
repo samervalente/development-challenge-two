@@ -49,7 +49,7 @@ async function getPatientById(patientId) {
   const params = {
     TableName: dynamoDBTableName,
     Key: {
-      patientId: patientId,
+      'patientId': patientId,
     },
   };
   const patient = await dynamoClient.get(params).promise();
@@ -62,7 +62,7 @@ async function updatePatientData(patientId, newPatientData) {
     const params = {
       TableName: dynamoDBTableName,
       Key: {
-        patientId: patientId,
+        'patientId': patientId,
       },
       UpdateExpression: `set ${updateKey} = :updateValue`,
       ExpressionAttributeValues: {
@@ -80,7 +80,7 @@ async function deletePatientData(patients) {
     const params = {
       TableName: dynamoDBTableName,
       Key: {
-        patientId: patientId,
+        'patientId': patientId,
       },
       ReturnValues: "ALL_OLD",
     };
