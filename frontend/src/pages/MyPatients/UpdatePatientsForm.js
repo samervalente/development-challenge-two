@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
 import { RegisterButton } from "../../pages/RegisterPatients/styles";
 import TextField from "@mui/material/TextField";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import "dayjs/locale/fr";
-import dayjs from "dayjs";
-import { StyledForm } from "./styles";
 import { updatePatientData, getPatientById } from "../../services/patients";
+import StyledForm from "../../components/Form";
+import formatDayJSDate from "../../utils/dateUtils";
 
 export default function UpdatePatientsForm({ patientId }) {
-  const [value, setValue] = useState(dayjs("2014-08-18T21:11:54"));
   const [patientData, setPatientData] = useState({
     patientName: "",
     email: "",
@@ -27,27 +22,24 @@ export default function UpdatePatientsForm({ patientId }) {
     fetchData();
   }, []);
 
-  function handleChange(newValue) {
-    setValue(newValue);
-  }
-
   async function handleSubmit(e) {
     e.preventDefault();
-    const {patientId} = patientData
+    const { patientId } = patientData;
     let newValues = Object.keys(patientData).map((updateKey, index) => {
       const updateValue = Object.values(patientData)[index];
       return { updateKey, updateValue };
     });
 
     newValues = { newPatientData: newValues.slice(1, 5) };
-   
+
     await updatePatientData(patientId, newValues);
   }
 
-  console.log(patientData);
   return (
     <StyledForm onSubmit={handleSubmit}>
+      <h1>Atualizar dados do paciente</h1>
       <TextField
+        disabled
         value={patientData.patientName}
         id="standard-basic"
         variant="standard"
@@ -55,12 +47,15 @@ export default function UpdatePatientsForm({ patientId }) {
         InputLabelProps={{
           shrink: true,
         }}
-        required
         onChange={(e) =>
           setPatientData({ ...patientData, patientName: e.target.value })
         }
+        sx={{
+          width: 300,
+        }}
       />
       <TextField
+        disabled
         value={patientData.email}
         id="standard-basic"
         variant="standard"
@@ -69,37 +64,52 @@ export default function UpdatePatientsForm({ patientId }) {
           shrink: true,
         }}
         type="email"
-        required
         onChange={(e) =>
           setPatientData({ ...patientData, email: e.target.value })
         }
+        sx={{
+          width: 300,
+        }}
       />
 
-      <div>
-        <TextField
-          id="standard-basic"
-          value={patientData.address}
-          variant="standard"
-          label="Endereço"
-          InputLabelProps={{
-            shrink: true,
+      <TextField
+        id="standard-basic"
+        value={patientData.address}
+        variant="standard"
+        disabled
+        label="Endereço"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        type="address"
+        required
+        onChange={(e) =>
+          setPatientData({ ...patientData, address: e.target.value })
+        }
+        sx={{
+          width: 300,
+        }}
+      />
+      <div className="birthDateSection">
+        <label>Data de nascimento *</label>
+        <input
+          type="date"
+          min="1910-01-01"
+          max="2022-01-01"
+          disabled
+          placeholder="DD/MM/AAAA"
+          value={"02/05/2003"}
+          defaultValue={"02/05/2003"}
+          onChange={(e) => {
+            setPatientData({
+              ...patientData,
+              birthDate: formatDayJSDate(e.target.value),
+            });
           }}
-          type="address"
-          required
-          onChange={(e) =>
-            setPatientData({ ...patientData, address: e.target.value })
-          }
+          sx={{
+            width: 300,
+          }}
         />
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"fr"}>
-          <DesktopDatePicker
-            inputFormat="DD/MM/YYYY"
-            value={patientData.birthDate}
-            onChange={handleChange}
-            renderInput={(params) => <TextField {...params} />}
-            required
-            dateAdapter={AdapterDayjs}
-          />
-        </LocalizationProvider>
       </div>
       <RegisterButton type="submit">Salvar Alterações</RegisterButton>
     </StyledForm>

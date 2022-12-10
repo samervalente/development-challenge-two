@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { RegisterButton } from "../../pages/RegisterPatients/styles";
 import TextField from "@mui/material/TextField";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
-import { StyledForm } from "./styles";
+import StyledForm from "../../components/Form";
 import { registerPatientData } from "../../services/patients";
+import formatDayJSDate from "../../utils/dateUtils";
 
 export default function RegisterPatientForm() {
-  const [value, setValue] = useState(dayjs("2014-08-18T21:11:54"));
   const [patientData, setPatientData] = useState({
     patientName: "",
     email: "",
@@ -17,13 +14,9 @@ export default function RegisterPatientForm() {
     address: "",
   });
 
-  function handleChange(newValue){
-    setValue(newValue)
-  }
- 
-  async function handleSubmit(e){
-    e.preventDefault()
-    await registerPatientData(patientData)
+  async function handleSubmit(e) {
+    e.preventDefault();
+    await registerPatientData(patientData);
   }
 
   return (
@@ -47,28 +40,32 @@ export default function RegisterPatientForm() {
         }
       />
 
-      <div>
-        <TextField
-          id="standard-basic"
-          label="Endereço"
-          variant="standard"
-          type="address"
+      <TextField
+        id="standard-basic"
+        label="Endereço"
+        variant="standard"
+        type="address"
+        required
+        onChange={(e) =>
+          setPatientData({ ...patientData, address: e.target.value })
+        }
+      />
+      <div className="birthDateSection">
+        <label>Data de nascimento *</label>
+        <input
+          type="date"
+          min="1997-01-01"
+          max="2030-12-31"
+          placeholder="DD/MM/AAAA"
           required
-          onChange={(e) =>
-            setPatientData({ ...patientData, address: e.target.value })
-          }
+          onChange={(e) => {
+            console.log(e.target.value);
+            setPatientData({
+              ...patientData,
+              birthDate: formatDayJSDate(e.target.value),
+            });
+          }}
         />
-        <LocalizationProvider dateAdapter={AdapterDayjs} locale={"fr"}>
-          <DesktopDatePicker
-            label="Data de Nascimento (DD/MM/AAAA) *"
-            inputFormat="DD/MM/YYYY"
-            value={value}
-            onChange={handleChange}
-            renderInput={(params) => <TextField {...params} />}
-            required
-            dateAdapter={AdapterDayjs}
-          />
-        </LocalizationProvider>
       </div>
       <RegisterButton type="submit">Registrar Paciente</RegisterButton>
     </StyledForm>

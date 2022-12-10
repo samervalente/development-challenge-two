@@ -17,8 +17,6 @@ const Container = styled.div`
   p {
     color: #7e7979;
   }
-
-  
 `;
 
 const RegisterButton = styled.button`
@@ -36,20 +34,6 @@ const RegisterButton = styled.button`
   }
 `;
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  width: 50%;
 
-  input {
-    width: 150px;
-  }
 
-  div {
-    display: flex;
-    gap: 25px;
-  }
-`;
-
-export { Container, StyledForm, RegisterButton };
+export { Container, RegisterButton };

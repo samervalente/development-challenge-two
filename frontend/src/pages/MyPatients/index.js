@@ -14,6 +14,7 @@ export default function MyPatients() {
   const [fetchDependecy, setFetchDependecy] = useState(false);
   const [patients, setPatients] = useState([]);
   const [openModal, setOpen] = useState(false);
+  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     async function fetchData() {
@@ -28,7 +29,7 @@ export default function MyPatients() {
     position: "absolute",
     top: "50%",
     left: "50%",
-    height: "60%",
+    height: "70%",
     flexDirection: "flex",
     justifyContent: "center",
     transform: "translate(-50%, -50%)",
@@ -110,7 +111,11 @@ export default function MyPatients() {
           selectionModel={selectionModel}
           onClick={() => deletePatients()}
         >
-          Excluir {selectionModel.length > 1 ? "Selecionados" : "Selecionado"}
+          Remover
+          {selectionModel.length > 1
+            ? " pacientes selecionados"
+            : " paciente selecionado"}{" "}
+          ({selectionModel.length})
         </DeleteButton>
       </nav>
       <div style={{ height: 300, width: "80%" }}>
@@ -120,13 +125,14 @@ export default function MyPatients() {
           onSelectionModelChange={(newSelectionModel) => {
             setSelectionModel(newSelectionModel);
           }}
+          pagination
+          rowsPerPageOptions={[5, 10, 20]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           editMode="row"
           getRowId={(row) => row.patientId}
           rows={rows}
           columns={columns}
-          processRowUpdate={(updatedRow, oldValues) => {
-            console.log(updatedRow, oldValues);
-          }}
           localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
         />
       </div>

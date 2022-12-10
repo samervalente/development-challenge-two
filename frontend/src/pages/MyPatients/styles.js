@@ -47,16 +47,4 @@ const UpdateButton = styled(Button)`
   display: ${(props) => (props.selectionModel.length === 1 ? "block" : "none")};
 `;
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  width: 50%;
-
-  div {
-    display: flex;
-    gap: 25px;
-  }
-`;
-
-export { StyledContainer, StyledForm, Button, DeleteButton, UpdateButton };
+export { StyledContainer, Button, DeleteButton, UpdateButton };
