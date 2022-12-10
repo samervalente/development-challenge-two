@@ -1,7 +1,7 @@
 import styled from "styled-components";
+import Container from "../../components/Container";
 
-const Container = styled.div`
-  display: flex;
+const StyledContainer = styled(Container)`
   flex-direction: column;
   align-items: flex-start;
   padding: 20px;
@@ -47,7 +47,16 @@ const UpdateButton = styled(Button)`
   display: ${(props) => (props.selectionModel.length === 1 ? "block" : "none")};
 `;
 
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 50%;
 
+  div {
+    display: flex;
+    gap: 25px;
+  }
+`;
 
-
-export { Container, Button, DeleteButton, UpdateButton };
+export { StyledContainer, StyledForm, Button, DeleteButton, UpdateButton };

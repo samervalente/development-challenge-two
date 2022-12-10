@@ -18,20 +18,7 @@ const Container = styled.div`
     color: #7e7979;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-
-    input {
-      width: 150px;
-    }
-
-    div {
-      display: flex;
-      gap: 25px;
-    }
-  }
+  
 `;
 
 const RegisterButton = styled.button`
@@ -49,4 +36,20 @@ const RegisterButton = styled.button`
   }
 `;
 
-export { Container, RegisterButton };
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 50%;
+
+  input {
+    width: 150px;
+  }
+
+  div {
+    display: flex;
+    gap: 25px;
+  }
+`;
+
+export { Container, StyledForm, RegisterButton };

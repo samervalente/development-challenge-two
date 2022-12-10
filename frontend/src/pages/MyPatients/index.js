@@ -1,18 +1,19 @@
 import { DataGrid, ptBR } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Container, Button, DeleteButton, UpdateButton } from "./styles";
+import { StyledContainer, DeleteButton, UpdateButton } from "./styles";
 import { getAllPatients, deletePatientsData } from "../../services/patients";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import UpdatePatientsForm from "./UpdatePatientsForm";
 
 export default function MyPatients() {
   const [selectionModel, setSelectionModel] = useState([]);
-  const [patients, setPatients] = useState([]);
   const [fetchDependecy, setFetchDependecy] = useState(false);
+  const [patients, setPatients] = useState([]);
   const [openModal, setOpen] = useState(false);
-  const closeModal = () => setOpen(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -27,10 +28,14 @@ export default function MyPatients() {
     position: "absolute",
     top: "50%",
     left: "50%",
+    height: "60%",
+    flexDirection: "flex",
+    justifyContent: "center",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: 800,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    border: "1px solid #000",
+    borderRadius: "10px",
     boxShadow: 24,
     p: 4,
   };
@@ -60,7 +65,7 @@ export default function MyPatients() {
   }
 
   return (
-    <Container>
+    <StyledContainer>
       <h1>Meus Pacientes</h1>
       <p>
         Aqui você pode ver e gerenciar todos seus pacientes cadastrados. Faça
@@ -77,11 +82,19 @@ export default function MyPatients() {
           timeout: 500,
         }}
       >
-        
         <Fade in={openModal}>
           <Box sx={style}>
-            <Button>Cancelar</Button>
-            Teste
+            <div>
+              <UpdatePatientsForm patientId={selectionModel[0]} />
+              <Button
+                onClick={() => {
+                  setOpen(false);
+                  setSelectionModel([]);
+                }}
+              >
+                Cancelar
+              </Button>
+            </div>
           </Box>
         </Fade>
       </Modal>
@@ -117,6 +130,6 @@ export default function MyPatients() {
           localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
         />
       </div>
-    </Container>
+    </StyledContainer>
   );
 }

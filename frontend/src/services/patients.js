@@ -13,16 +13,39 @@ async function getAllPatients() {
 }
 
 async function registerPatientData(payload) {
-  const { data } = await api.post("/patient", payload);
-  toast.success("Paciente registrado com sucesso.");
-  console.log(data);
-  return data;
+  try {
+    const { data } = await api.post("/patients", payload);
+    toast.success("Paciente registrado com sucesso.");
+    return data;
+  } catch (error) {
+    toast.error("Não foi possível registrar o paciente.");
+  }
+}
+
+async function getPatientById(patientId) {
+  try {
+    const { data } = await api.get(`/patients/${patientId}`);
+    return data;
+  } catch (error) {
+    toast.error("Não foi possível carregar os dados do paciente.");
+  }
+}
+
+async function updatePatientData(patientId, newPatientData) {
+  try {
+    await api.patch(`/patients/${patientId}`, newPatientData);
+    toast.success(
+      "Os dados do paciente foram atualizados com sucesso. Redirecionando..."
+    );
+  } catch (error) {
+    toast.error("Não foi possível atualizar os dados do paciente.");
+  }
 }
 
 async function deletePatientsData(payload) {
   try {
     const body = { data: payload };
-    await api.delete("/patient", body);
+    await api.delete("/patients", body);
     const toastSucessMessage = `Sucesso ao deletar ${
       payload.patients.length > 1 ? "os pacientes" : "o paciente"
     }`;
@@ -35,4 +58,10 @@ async function deletePatientsData(payload) {
   }
 }
 
-export { getAllPatients, registerPatientData, deletePatientsData };
+export {
+  getAllPatients,
+  registerPatientData,
+  getPatientById,
+  deletePatientsData,
+  updatePatientData,
+};
