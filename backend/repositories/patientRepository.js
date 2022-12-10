@@ -56,4 +56,23 @@ async function getPatientById(patientId) {
   return patient;
 }
 
-module.exports = { getPatientByEmail, insertPatientData, getPatients, getPatientById };
+async function updatePatientData(patientId, newPatientData){
+  for(let newData of newPatientData){
+    const {updateKey, updateValue} = newData
+    const params = {
+   TableName: dynamoDBTableName,
+   Key: {
+     'patientId': patientId,
+   },
+   UpdateExpression: `set ${updateKey} = :updateValue`,
+   ExpressionAttributeValues: {
+     ':updateValue': updateValue,
+   },
+   ReturnValues:'UPDATED_NEW'
+ };
+ 
+  await dynamoClient.update(params).promise();
+  }
+}
+
+module.exports = { getPatientByEmail, insertPatientData, getPatients, getPatientById, updatePatientData };

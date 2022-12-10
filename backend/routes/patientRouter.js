@@ -1,22 +1,34 @@
 const { Router } = require("express");
-const schemaValidatorMiddleware = require("../middlewares/schemaValidatorMiddleware");
-const { patientSchema } = require("../schemas/patientSchema");
-const { registerPatientData, getAllPatients, getPatientById } = require("../controllers/patientController");
+const schemaValidator= require("../middlewares/schemaValidatorMiddleware");
+const {validatePatientRequestBody, validatePatientUpdateRequestBody} = require("../middlewares/patientMiddleware");
+
+const {
+  patientSchema,
+} = require("../schemas/patientSchema");
+const {
+  registerPatientData,
+  getAllPatients,
+  getPatientById,
+  updatePatientData,
+} = require("../controllers/patientController");
 
 const patientRouter = Router();
 
 patientRouter.post(
-  "/patients",
-  schemaValidatorMiddleware(patientSchema),
+  "/",
+  validatePatientRequestBody,
+  schemaValidator(patientSchema),
   registerPatientData
 );
 
-patientRouter.get(
-  "/patients", getAllPatients
-);
+patientRouter.get("/", getAllPatients);
 
-patientRouter.get(
-  "/patients/:id", getPatientById
+patientRouter.get("/:id", getPatientById);
+
+patientRouter.patch(
+  "/:id",
+  validatePatientUpdateRequestBody,
+  updatePatientData
 );
 
 module.exports = patientRouter;

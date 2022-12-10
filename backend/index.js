@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(patientRouter);
+app.use("/patients", patientRouter);
 app.use(errorHandlerMiddleware);
 
 module.exports.handler = serverless(app);

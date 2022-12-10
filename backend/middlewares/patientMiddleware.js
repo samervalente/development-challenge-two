@@ -1,4 +1,5 @@
 const {wrongSchemaError} = require ("../utils/errorUtils.js")
+const {updatePatientSchema} = require("../schemas/patientSchema")
 
 async function validatePatientRequestBody(req, res, next){
     const {birthDate} = req.body
@@ -10,4 +11,21 @@ async function validatePatientRequestBody(req, res, next){
     next()
 }
 
-module.exports = validatePatientRequestBody
+async function validatePatientUpdateRequestBody(req, res, next){
+  const {updateData} = req.body
+  for(const newData of updateData){
+    const {updateKey, updateValue} = newData
+    const updateData = {[updateKey]: updateValue}
+    const { error } = updatePatientSchema.validate(updateData, {abortEarly:false});
+
+    if (error) {
+      const errors = error.details.map((detail) => (detail.message).replaceAll('"', ""));
+      throw wrongSchemaError(errors)
+      
+    }
+  }
+
+  next()
+}
+
+module.exports = {validatePatientRequestBody, validatePatientUpdateRequestBody}

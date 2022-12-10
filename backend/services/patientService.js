@@ -17,15 +17,31 @@ async function getPatients() {
   return patients;
 }
 
-async function getPatientById(patientId){
-  const {Item} = await patientRepository.getPatientById(patientId);
-  
-  if(!Item){
+async function getPatientById(patientId) {
+  const { Item } = await patientRepository.getPatientById(patientId);
+
+  if (!Item) {
     const error = notFoundError("Patient not found");
-     return { error };
+    return { error };
   }
 
-  return Item
+  return Item;
 }
 
-module.exports = { insertPatientData, getPatients, getPatientById };
+async function updatePatientData(patientId, newPatientData) {
+  const { Item } = await patientRepository.getPatientById(patientId);
+
+  if (!Item) {
+    const error = notFoundError("Patient not found");
+    return { error };
+  }
+
+  return await patientRepository.updatePatientData(patientId, newPatientData);
+}
+
+module.exports = {
+  insertPatientData,
+  getPatients,
+  getPatientById,
+  updatePatientData,
+};
