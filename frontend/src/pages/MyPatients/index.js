@@ -14,7 +14,7 @@ export default function MyPatients() {
   const [fetchDependecy, setFetchDependecy] = useState(false);
   const [patients, setPatients] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [backdropState, setOpenBackdrop] = useState(false);
   const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
@@ -101,7 +101,12 @@ export default function MyPatients() {
         Aqui você pode ver e gerenciar todos seus pacientes cadastrados. Faça
         também modificações como atualizar e excluir seus respectivos dados.{" "}
       </p>
-    
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={backdropState}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

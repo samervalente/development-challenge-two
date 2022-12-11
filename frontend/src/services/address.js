@@ -18,7 +18,7 @@ async function getPatientAddress(cep) {
     const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
     return data;
   } catch (error) {
-    toast.error("Erro ao solicitar o endereço através do CEP.");
+    return;
   }
 }
 

@@ -82,6 +82,7 @@ export default function RegisterPatientForm({ setOpenBackdrop }) {
   async function validatePatientCEP() {
     const { cep } = patientData;
     const data = await getPatientAddress(cep);
+    console.log(data);
     if (!data) {
       toast.error("Insira um CEP válido.");
       return false;
