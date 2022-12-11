@@ -2,13 +2,22 @@ import styled from "styled-components";
 
 const StyledForm = styled.form`
   display: flex;
-  flex-direction: column;
   gap: 25px;
-  width: 300px;
+  width: 100%;
 
-  div {
-    display: flex;
-    gap: 25px;
+  .debounceInput {
+    border-top-style: hidden;
+    border-left-style: hidden;
+    border-right-style: hidden;
+    border-bottom-style: groove;
+    border-bottom: 1px solid gray;
+    padding: 0px 0px 15px 0px;
+    font-size: 15px;
+    font-family: "Roboto";
+
+    :focus {
+      outline: none;
+    }
   }
 
   .emailEdit {
@@ -29,19 +38,18 @@ const StyledForm = styled.form`
       color: blue;
     }
 
-    .checkIcon{
-      color:green;
+    .checkIcon {
+      color: green;
     }
 
     .closeIcon {
-      display: ${props => (props.isEmailEditing ? "none" : "block")};
+      display: ${(props) => (props.isEmailEditing ? "none" : "block")};
       color: red;
     }
   }
 
   .birthDateSection {
     display: flex;
-
     flex-direction: column;
 
     input {
@@ -60,6 +68,7 @@ const StyledForm = styled.form`
 
     label {
       color: gray;
+      margin: 0;
     }
   }
 `;

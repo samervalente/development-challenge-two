@@ -1,7 +1,7 @@
 import { NavContainer, NavigationOption } from "./styles";
 import medcloudlogo from "../../assets/images/medcloudlogo.png";
 import { PersonAddAlt1, PeopleAlt } from "@mui/icons-material";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 export default function LeftBar() {
   const location = useLocation();
@@ -19,19 +19,19 @@ export default function LeftBar() {
         </h3>
       </header>
       <main>
-        <Link to="/" exact activeClassName="is-active">
+        <NavLink to="/" activeclassname="is-active">
           <NavigationOption active={isActive("/")}>
             <PeopleAlt />
             <span>Meus Pacientes</span>
           </NavigationOption>
-        </Link>
+        </NavLink>
 
-        <Link to="/patients/register" activeClassName="is-active">
+        <NavLink to="/patients/register" activeclassname="is-active">
           <NavigationOption active={isActive("/patients/register")}>
             <PersonAddAlt1 />
             <span>Novo Paciente</span>
           </NavigationOption>
-        </Link>
+        </NavLink>
       </main>
     </NavContainer>
   );
