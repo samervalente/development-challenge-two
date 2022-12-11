@@ -8,7 +8,8 @@ async function getStates() {
     );
     return data;
   } catch (error) {
-    toast.error("Não foi possível listar os estados.");
+    toast.error("Não foi possível listar os estados solicitados.");
+    return error;
   }
 }
 
@@ -17,7 +18,7 @@ async function getPatientAddress(cep) {
     const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
     return data;
   } catch (error) {
-    toast.error("Não foi possível solicitar o endereço do paciente.");
+    toast.error("Erro ao solicitar o endereço através do CEP.");
   }
 }
 

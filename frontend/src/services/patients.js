@@ -18,6 +18,7 @@ async function registerPatientData(payload) {
     toast.success("Paciente registrado com sucesso.");
     return data;
   } catch (error) {
+    console.log(error);
     if (error.response.status === 409) {
       toast.error("Este email já está cadastrado no sistema.");
     } else if (error.response.status === 422) {

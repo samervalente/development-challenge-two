@@ -9,6 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 import formatDayJSDate from "../../utils/dateUtils";
 import FormControl from "@mui/material/FormControl";
 import { getPatientAddress, getStates } from "../../services/address";
+import { toast } from "react-toastify";
 
 export default function RegisterPatientForm({ setOpenBackdrop }) {
   const [patientData, setPatientData] = useState({
@@ -24,12 +25,14 @@ export default function RegisterPatientForm({ setOpenBackdrop }) {
   });
 
   const [states, setStates] = useState([]);
-  const [selectedState, setSelectedState] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
     setOpenBackdrop(true);
-    await registerPatientData(patientData);
+    const isValidCEP = await validatePatientCEP();
+    if (isValidCEP) {
+      await registerPatientData(patientData);
+    }
     setOpenBackdrop(false);
   }
 
@@ -42,9 +45,8 @@ export default function RegisterPatientForm({ setOpenBackdrop }) {
   }, []);
 
   useEffect(() => {
-    async function fetchData() {
-      let { cep } = patientData;
-      cep = cep.replace("-", "");
+    async function getPatientAddressByCep() {
+      const cep = patientData.cep?.replace("-", "");
       if (cep?.length === 8) {
         const data = await getPatientAddress(cep);
         const {
@@ -66,7 +68,7 @@ export default function RegisterPatientForm({ setOpenBackdrop }) {
         });
       }
     }
-    fetchData();
+    getPatientAddressByCep();
   }, [patientData.cep]);
 
   function listStates() {
@@ -77,9 +79,15 @@ export default function RegisterPatientForm({ setOpenBackdrop }) {
     }
   }
 
-  // function handleSelectedStateChange(e){
-
-  // }
+  async function validatePatientCEP() {
+    const { cep } = patientData;
+    const data = await getPatientAddress(cep);
+    if (!data) {
+      toast.error("Insira um CEP válido.");
+      return false;
+    }
+    return true;
+  }
 
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -150,7 +158,6 @@ export default function RegisterPatientForm({ setOpenBackdrop }) {
             value={patientData.uf}
             label={"UF"}
             onChange={(e) => {
-              setSelectedState(e.target.value);
               setPatientData({ ...patientData, uf: e.target.value });
             }}
           >
