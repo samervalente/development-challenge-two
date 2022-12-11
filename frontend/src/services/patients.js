@@ -43,7 +43,8 @@ async function updatePatientData(patientId, newPatientData) {
     await api.patch(`/patients/${patientId}`, newPatientData);
     toast.success("Os dados do paciente foram atualizados com sucesso.");
   } catch (error) {
-    if (error.response.status === 409) {
+    console.log(error)
+    if (error.response?.status === 409) {
       toast.error("Este email já está cadastrado no sistema.");
     } else if (error.response.status === 422) {
       toast.error("Dados inválidos, por favor verifique.");

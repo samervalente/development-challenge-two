@@ -20,21 +20,47 @@ export default function MyPatients() {
   useEffect(() => {
     async function fetchData() {
       const patientsData = await getAllPatients();
-      setPatients(patientsData.patients);
+      const formatedPatientData = patientsData.patients.map((patient) =>
+        formatPatientData(patient)
+      );
+      setPatients(formatedPatientData);
     }
 
     fetchData();
   }, [fetchDependecy]);
+
+  function formatPatientData(patientData) {
+    const {
+      patientId,
+      patientName,
+      email,
+      birthDate,
+      publicPlace,
+      district,
+      city,
+      uf,
+      cep,
+    } = patientData;
+    const formatedAddress = `${publicPlace}, ${district}, ${city} - ${uf} ${cep}`;
+    return {
+      patientId,
+      patientName,
+      email,
+      birthDate,
+      address: formatedAddress,
+    };
+  }
 
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     height: "70%",
-    flexDirection: "flex",
+    width: "70%",
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     transform: "translate(-50%, -50%)",
-    width: 800,
     bgcolor: "background.paper",
     border: "1px solid #000",
     borderRadius: "10px",
@@ -44,8 +70,8 @@ export default function MyPatients() {
 
   const rows = patients;
   const columns = [
-    { field: "patientName", headerName: "Nome", width: 150 },
-    { field: "email", headerName: "Email", width: 150 },
+    { field: "patientName", headerName: "Nome", width: 220 },
+    { field: "email", headerName: "Email", width: 250 },
     {
       field: "birthDate",
       headerName: "Data de Nascimento",
@@ -53,7 +79,7 @@ export default function MyPatients() {
       editable: true,
       type: "date",
     },
-    { field: "address", headerName: "Endereço", width: 200 },
+    { field: "address", headerName: "Endereço", width: 350 },
   ];
 
   async function updatePatientList() {
@@ -75,26 +101,18 @@ export default function MyPatients() {
         Aqui você pode ver e gerenciar todos seus pacientes cadastrados. Faça
         também modificações como atualizar e excluir seus respectivos dados.{" "}
       </p>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openBackdrop}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+    
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={openModal}
         onClose={() => setOpenModal(false)}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
         <Fade in={openModal}>
           <Box sx={style}>
             <div>
+              <h1>Atualize os dados do paciente</h1>
               <UpdatePatientsForm
                 patientId={selectionModel[0]}
                 setOpenModal={setOpenModal}
@@ -123,7 +141,7 @@ export default function MyPatients() {
           ({selectionModel.length})
         </DeleteButton>
       </nav>
-      <div style={{ height: 300, width: "80%" }}>
+      <div style={{ height: 500, width: "100%" }}>
         <DataGrid
           checkboxSelection
           disableSelectionOnClick

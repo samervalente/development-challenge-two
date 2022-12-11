@@ -2,27 +2,13 @@ import styled from "styled-components";
 
 const StyledForm = styled.form`
   display: flex;
-  gap: 25px;
+  gap: 60px;
   width: 100%;
-
-  .debounceInput {
-    border-top-style: hidden;
-    border-left-style: hidden;
-    border-right-style: hidden;
-    border-bottom-style: groove;
-    border-bottom: 1px solid gray;
-    padding: 0px 0px 15px 0px;
-    font-size: 15px;
-    font-family: "Roboto";
-
-    :focus {
-      outline: none;
-    }
-  }
 
   .emailEdit {
     align-items: center;
-
+    display: flex;
+    width: 300px;
     .icon {
       font-size: 20px;
       cursor: pointer;
@@ -68,7 +54,7 @@ const StyledForm = styled.form`
 
     label {
       color: gray;
-      margin: 0;
+      margin-bottom: 10px;
     }
   }
 `;
