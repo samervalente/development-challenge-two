@@ -19,19 +19,4 @@ const Container = styled.div`
   }
 `;
 
-const RegisterButton = styled.button`
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  transition: all linear 0.3s;
-  background-color: ${(props) => (props.isButtonDisabled ? "gray" : "#016ea5")};
-  margin-top: 15px;
-
-  :hover {
-    filter: brightness(80%);
-  }
-`;
-
-export { Container, RegisterButton };
+export { Container };

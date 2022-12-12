@@ -14,9 +14,9 @@ async function getAllPatients() {
 
 async function registerPatientData(payload) {
   try {
-    const { data } = await api.post("/patients", payload);
+    const response = await api.post("/patients", payload);
     toast.success("Paciente registrado com sucesso.");
-    return data;
+    return response;
   } catch (error) {
     console.log(error);
     if (error.response.status === 409) {
@@ -43,7 +43,7 @@ async function updatePatientData(patientId, newPatientData) {
     await api.patch(`/patients/${patientId}`, newPatientData);
     toast.success("Os dados do paciente foram atualizados com sucesso.");
   } catch (error) {
-    console.log(error)
+    console.log(error);
     if (error.response?.status === 409) {
       toast.error("Este email já está cadastrado no sistema.");
     } else if (error.response.status === 422) {

@@ -9,16 +9,17 @@ async function getStates() {
     return data;
   } catch (error) {
     toast.error("Não foi possível listar os estados solicitados.");
-    return error;
+    return { error };
   }
 }
 
 async function getPatientAddress(cep) {
   try {
     const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    console.log(data)
     return data;
   } catch (error) {
-    return;
+    return { error };
   }
 }
 
