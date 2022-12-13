@@ -36,8 +36,10 @@ export default function RegisterPatients() {
 
   return (
     <Container>
+      <div className="title">
       <h1>Registrar Novo Paciente</h1>
       <p>Registre um novo paciente</p>
+      </div>
       <Backdrop backdropState={openBackdrop} />
       <PatientForm
         patientData={patientData}

@@ -113,7 +113,7 @@ export default function PatientForm({
     <>
     <StyledForm onSubmit={handleSubmit}>
       <div className="form-container">
-        <FormControl sx={{ m: 1, minWidth: 120, gap: 4 }}>
+        <FormControl sx={{ minWidth: 120, gap: 4, bgColor:"red" }}>
           <TextField
             id="patientName"
             name="patientName"

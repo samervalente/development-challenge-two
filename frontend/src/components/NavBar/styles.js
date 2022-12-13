@@ -1,19 +1,27 @@
 import styled from "styled-components";
 import Container from "../Container";
 
-const NavContainer = styled(Container)`
+const HamburguerContainer = styled(Container)`
   background-color: #002137;
-  max-width: 250px;
+  max-width: 80px;
+  max-height: 100vh;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 600px) {
+    min-width: 100vw;
+    justify-content: flex-end;
+  }
+`;
+const NavContainer = styled(Container)`
   max-height: 100vh;
   flex-direction: column;
-  padding-left: 10px;
   gap: 20px;
 
   header {
     width: 100%;
     display: flex;
     flex-direction: column;
-
     img {
       width: 60%;
     }
@@ -40,11 +48,21 @@ const NavContainer = styled(Container)`
     }
   }
 
-  div {
-  }
-
   @media (max-width: 600px) {
-    display: none;
+    max-width: 100%;
+
+    header {
+      align-items: center;
+      
+      img {
+        width: 50%;
+      }
+
+      h3{
+        display:none;
+      }
+    }
+    
   }
 `;
 
@@ -62,8 +80,9 @@ const NavigationOption = styled.div`
   }
 
   @media (max-width: 600px) {
-    height: 80px;
+    height: 30px;
   }
 `;
 
-export { NavContainer, NavigationOption };
+
+export { NavContainer, NavigationOption, HamburguerContainer };

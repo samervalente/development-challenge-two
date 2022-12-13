@@ -27,6 +27,10 @@ function App() {
 
 const Container = styled.div`
   display: flex;
+
+  @media (max-width:600px){
+    flex-direction: column;
+  }
 `;
 
 export default App;

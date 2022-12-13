@@ -11,7 +11,7 @@ const Button = styled.button`
   background-color: ${(props) => {
     switch (props.variant) {
       case "secondary":
-        return "orange";
+        return "#002E82";
       case "disabled":
         return "gray";
       case "delete":
@@ -24,6 +24,10 @@ const Button = styled.button`
 
   :hover {
     filter: brightness(80%);
+  }
+
+  @media (max-width: 600px) {
+    width: 60%;
   }
 `;
 

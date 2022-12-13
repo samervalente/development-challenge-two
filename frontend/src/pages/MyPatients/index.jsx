@@ -5,7 +5,11 @@ import SimpleDialog from "../../components/Dialog";
 import Modal from "../../components/Modal";
 import DataGridComponent from "../../components/DataGrid";
 import PatientForm from "../../components/PatientForm";
-import { DialogTitle, DialogActions, Button as MuiButton } from "@mui/material";
+import {
+  DialogTitle,
+  DialogActions,
+  Button as GenericButton,
+} from "@mui/material";
 
 import {
   getAllPatients,
@@ -112,10 +116,10 @@ export default function MyPatients() {
       >
         <DialogTitle>Deseja mesmo remover este paciente?</DialogTitle>
         <DialogActions>
-          <MuiButton autoFocus onClick={cancelDeletePatients}>
+          <GenericButton autoFocus onClick={cancelDeletePatients}>
             Cancelar
-          </MuiButton>
-          <MuiButton onClick={() => deletePatients()}>Ok</MuiButton>
+          </GenericButton>
+          <GenericButton onClick={() => deletePatients()}>Ok</GenericButton>
         </DialogActions>
       </SimpleDialog>
       <DataGridComponent

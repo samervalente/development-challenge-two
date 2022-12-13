@@ -5,7 +5,7 @@ import Button from "../../components/Button";
 const StyledContainer = styled(Container)`
   flex-direction: column;
   align-items: flex-start;
-  padding: 20px;
+  padding: 20px 0px 0px 10px;
   width: 100%;
   gap: 15px;
 
@@ -17,6 +17,8 @@ const StyledContainer = styled(Container)`
 
   p {
     color: #7e7979;
+    text-align: justify;
+    padding-right:10px;
   }
 
   nav {
@@ -26,14 +28,26 @@ const StyledContainer = styled(Container)`
     gap: 10px;
   }
 
-  .delete-options {
-    background-color: red;
+  @media (max-width: 600px) {
+    gap: 10px;
+    h1 {
+      font-size: 25px;
+    }
+
+    nav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 `;
 
 const DeleteButton = styled(Button)`
   width: 25%;
   display: ${(props) => (props.selectionModel?.length > 0 ? "block" : "none")};
+
+  @media(max-width:600px){
+    width:60%;
+  }
 `;
 
 const UpdateButton = styled(Button)`

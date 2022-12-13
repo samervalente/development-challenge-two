@@ -26,22 +26,26 @@ export default function DataGridComponent({
   return (
     <div style={{ height: 500, width: "100%" }}>
       {!isFetching ? (
-        <DataGrid
-          checkboxSelection
-          disableSelectionOnClick
-          onSelectionModelChange={(newSelectionModel) => {
-            setSelectionModel(newSelectionModel);
-          }}
-          pagination
-          rowsPerPageOptions={[5, 10, 20]}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          editMode="row"
-          getRowId={(row) => row.patientId}
-          rows={rows}
-          columns={columns}
-          localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
-        />
+        <div style={{ display: "flex", height: "100%" }}>
+          <div style={{ flexGrow: 1 }}>
+            <DataGrid
+              checkboxSelection
+              disableSelectionOnClick
+              onSelectionModelChange={(newSelectionModel) => {
+                setSelectionModel(newSelectionModel);
+              }}
+              pagination
+              rowsPerPageOptions={[5, 10, 20]}
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              editMode="row"
+              getRowId={(row) => row.patientId}
+              rows={rows}
+              columns={columns}
+              localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+            />
+          </div>
+        </div>
       ) : (
         <Stack alignItems={"center"} justifyContent="center" height={"100%"}>
           <CircularProgress />
