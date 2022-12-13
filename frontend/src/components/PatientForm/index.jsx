@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import StyledForm from "./styles";
-import { MenuItem, FormControl, TextField } from "@mui/material";
 import Button from "../Button";
-import { getStates } from "../../services/address";
+
 import { useFormik } from "formik";
+import { MenuItem, FormControl, TextField } from "@mui/material";
+
 import { patientSchema } from "../../schemas/patientSchema";
 import { validatePatientCEP, formatUpdateData } from "../../utils/patientUtils";
-import formatDate from "../../utils/dateUtils";
+
 import { useNavigate } from "react-router-dom";
 import {
   updatePatientData,
   registerPatientData,
 } from "../../services/patients";
+import { getStates, onBlurCep } from "../../services/address";
 
 export default function PatientForm({
   patientData,
@@ -24,31 +26,41 @@ export default function PatientForm({
   const [states, setStates] = useState([]);
   const navigate = useNavigate();
 
+  function getInitialValues(){
+    if(context !== 'update'){
+      const data = localStorage.getItem("patientData");
+      if (data) {
+        const unserializedData = JSON.parse(data);
+        return {...unserializedData}
+      }
+    }
+    return patientData
+  }
+
+
   const formik = useFormik({
-    initialValues: patientData,
+    initialValues: getInitialValues(),
     validationSchema: patientSchema,
     onSubmit: async (values) => {
       setOpenBackdrop(true);
 
-      values = { ...values, birthDate: formatDate(values.birthDate) };
       await validatePatientCEP(values.cep);
-
       if (context === "update") {
+       
         const patientId = patientData.patientId;
         const updatedValues = await formatUpdateData(values);
+        console.log(updatedValues)
         const { status } = await updatePatientData(patientId, {
           newPatientData: updatedValues,
         });
-        if (status === 200) {
-          setSelectionModel([]);
-          updatePatientList();
-          setOpenModal(false);
-        }
+
+        status === 200 && setSelectionModel([]);
+        updatePatientList();
+        setOpenModal(false);
       } else {
         const { status } = await registerPatientData(values);
-        if (status === 201) {
-          navigate("/");
-        }
+
+        status === 201 && navigate("/");
       }
       setOpenBackdrop(false);
     },
@@ -56,26 +68,6 @@ export default function PatientForm({
 
   let { handleSubmit, handleChange, errors, values, touched, setFieldValue } =
     formik;
-
-  function onBlurCep(ev, setFieldValue) {
-    const { value } = ev.target;
-
-    const cep = value?.replace(/[^0-9]/g, "");
-
-    if (cep?.length !== 8) {
-      return;
-    }
-
-    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      .then((res) => res.json())
-      .then((data) => {
-        setFieldValue("publicPlace", data.logradouro);
-        setFieldValue("district", data.bairro);
-        setFieldValue("city", data.localidade);
-        setFieldValue("uf", data.uf);
-        setFieldValue("complement", data.complemento);
-      });
-  }
 
   useEffect(() => {
     async function fetchStates() {
@@ -94,8 +86,24 @@ export default function PatientForm({
       <MenuItem value={"AC"}>AC</MenuItem>
     );
   }
+  
+  useEffect(() => {
+      localStorage.setItem("patientData", JSON.stringify(values))
+  }, [values]);
+
+  useEffect(() => {
+    if(values.birthDate?.length === 2 || values.birthDate?.length === 5){
+      values ={...values, birthDate: values.birthDate += '/'}
+    }
+  },[values.birthDate])
+
+  function clearFields(){
+    localStorage.removeItem("patientData")
+    window.location.reload()
+  }
 
   return (
+    <>
     <StyledForm onSubmit={handleSubmit}>
       <div className="form-container">
         <FormControl sx={{ m: 1, minWidth: 120, gap: 4 }}>
@@ -127,16 +135,16 @@ export default function PatientForm({
               shrink: true,
             }}
           />
-          <TextField
+         <TextField
             id="birthDate"
             name="birthDate"
-            label="Data de Nascimento"
-            type="date"
+            label="Data de Nascimento (DD/MM/AAAA)"
             value={values.birthDate}
             variant="standard"
             error={touched.birthDate && errors.birthDate}
             helperText={touched.birthDate && errors.birthDate}
             onChange={handleChange}
+            inputProps={{maxLength:10}}
             InputLabelProps={{
               shrink: true,
             }}
@@ -218,7 +226,7 @@ export default function PatientForm({
           <TextField
             id="complement"
             name="complement"
-            label="Complemento"
+            label="Complemento (Opcional)"
             value={values.complement}
             variant="standard"
             onChange={handleChange}
@@ -232,7 +240,13 @@ export default function PatientForm({
         <Button type="submit">
           {context === "update" ? "Salvar Alterações" : "Registrar Paciente"}
         </Button>
+       
       </div>
+
     </StyledForm>
+    {context !== 'update' && <Button 
+    onClick={clearFields}>Limpar campos
+    </Button>}
+    </>
   );
 }

@@ -22,4 +22,24 @@ async function getPatientAddress(cep) {
   }
 }
 
-export { getStates, getPatientAddress };
+function onBlurCep(ev, setFieldValue) {
+  const { value } = ev.target;
+
+  const cep = value?.replace(/[^0-9]/g, "");
+
+  if (cep?.length !== 8) {
+    return;
+  }
+
+  fetch(`https://viacep.com.br/ws/${cep}/json/`)
+    .then((res) => res.json())
+    .then((data) => {
+      setFieldValue("publicPlace", data.logradouro);
+      setFieldValue("district", data.bairro);
+      setFieldValue("city", data.localidade);
+      setFieldValue("uf", data.uf);
+      setFieldValue("complement", data.complemento);
+    });
+}
+
+export { getStates, getPatientAddress, onBlurCep };

@@ -15,7 +15,7 @@ export default function LeftBar() {
       <header>
         <img src={medcloudlogo} alt="medcloudLogo" />
         <h3>
-          Excelência na gestão de dados <br /> de saúde
+          Excelência na gestão de dados <br/> de saúde
         </h3>
       </header>
       <main>

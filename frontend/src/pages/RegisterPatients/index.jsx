@@ -17,26 +17,22 @@ export default function RegisterPatients() {
     complement: "",
   });
 
-  useEffect(() => {
-    const data = localStorage.getItem("patientData");
-    if (data) {
-      const serializedData = JSON.parse(data);
-      setPatientData(serializedData);
-    }
-  }, []);
 
-  useEffect(() => {
-    let storageData = {};
-    Object.keys(patientData).map((key, index) => {
-      const value = Object.values(patientData)[index];
-      if (value) {
-        storageData = { ...storageData, [key]: value };
-      }
-    });
-    if (Object.keys(storageData).length > 0) {
-      window.localStorage.setItem("patientData", JSON.stringify(storageData));
-    }
-  }, [patientData]);
+  function storageDraft(values){
+    let storagedData = JSON.parse(localStorage.getItem("patientData"));
+
+    if (storagedData) {
+        Object.keys(values).map((key, index) => {
+          const value = Object.values(values)[index];
+          if (value) {
+            storagedData = { ...storagedData, [key]: value };
+          }
+        });
+     }else{
+      storagedData = values
+     }
+      localStorage.setItem("patientData", JSON.stringify(storagedData));
+  }
 
   return (
     <Container>
@@ -47,6 +43,7 @@ export default function RegisterPatients() {
         patientData={patientData}
         setPatientData={setPatientData}
         setOpenBackdrop={setOpenBackdrop}
+        storageDraft={storageDraft}
         required={true}
       />
     </Container>
