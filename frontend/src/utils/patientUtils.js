@@ -25,8 +25,9 @@ function formatPatientData(patientData) {
 
 async function validatePatientCEP(cep) {
   const data = await getPatientAddress(cep);
-  if (!data) {
-    toast.error("Insira um CEP válido.");
+  console.log(data);
+  if (data.erro) {
+    toast.error("Não foi possível carregar o endereço deste CEP");
     return false;
   }
   return true;

@@ -34,11 +34,13 @@ function onBlurCep(ev, setFieldValue) {
   fetch(`https://viacep.com.br/ws/${cep}/json/`)
     .then((res) => res.json())
     .then((data) => {
-      setFieldValue("publicPlace", data.logradouro);
-      setFieldValue("district", data.bairro);
-      setFieldValue("city", data.localidade);
-      setFieldValue("uf", data.uf);
-      setFieldValue("complement", data.complemento);
+      if (!data.erro) {
+        setFieldValue("publicPlace", data.logradouro);
+        setFieldValue("district", data.bairro);
+        setFieldValue("city", data.localidade);
+        setFieldValue("uf", data.uf);
+        setFieldValue("complement", data.complemento);
+      }
     });
 }
 

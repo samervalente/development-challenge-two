@@ -29,10 +29,10 @@ export default function PatientForm({
   function getInitialValues(){
     if(context !== 'update'){
       const data = localStorage.getItem("patientData");
-      if (data) {
-        const unserializedData = JSON.parse(data);
-        return {...unserializedData}
-      }
+        if(data){
+          const unserializedData = JSON.parse(data);
+          return unserializedData
+        }
     }
     return patientData
   }
@@ -44,18 +44,27 @@ export default function PatientForm({
     onSubmit: async (values) => {
       setOpenBackdrop(true);
 
-      await validatePatientCEP(values.cep);
+      const isValidCEP = await validatePatientCEP(values.cep);
+      if(!isValidCEP) {
+        const newValues = JSON.parse(localStorage.getItem("patientData"))
+        localStorage.setItem("patientData", JSON.stringify({...newValues, ...patientData}))
+        setOpenBackdrop(false);
+        return;
+      }
+
       if (context === "update") {
-       
-        const patientId = patientData.patientId;
+        const patientId = values.patientId;
         const updatedValues = await formatUpdateData(values);
         const { status } = await updatePatientData(patientId, {
           newPatientData: updatedValues,
         });
 
-        status === 200 && setSelectionModel([]);
-        updatePatientList();
-        setOpenModal(false);
+        if(status === 200){
+          updatePatientList()
+          setOpenModal(false) 
+        }
+        setSelectionModel([]);
+        
       } else {
         delete values.patientId
         const { status } = await registerPatientData(values);
@@ -88,7 +97,7 @@ export default function PatientForm({
   }
   
   useEffect(() => {
-      localStorage.setItem("patientData", JSON.stringify(values))
+      context !== "update" && localStorage.setItem("patientData", JSON.stringify(values))
   }, [values]);
 
   useEffect(() => {
