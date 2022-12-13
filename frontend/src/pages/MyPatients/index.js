@@ -16,16 +16,16 @@ import {
 import Modal from "../../components/Modal";
 import PatientForm from "../../components/PatientForm";
 
-
 export default function MyPatients() {
   const [fetchDependecy, setFetchDependecy] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [patients, setPatients] = useState([]);
   const [patientDataUpdate, setPatientDataUpdate] = useState({});
   const [selectionModel, setSelectionModel] = useState([]);
 
   const [dialogOpenState, setDialogOpenState] = useState(false);
-  const [modalOpenState, setModalOpenState] = useState(false);
-  const [backdropState, setBackdropState] = useState(false);
+  const [modalOpenState, setOpenModal] = useState(false);
+  const [backdropState, setOpenBackdrop] = useState(false);
 
   const patientEmail = useRef("");
 
@@ -33,15 +33,17 @@ export default function MyPatients() {
     setDialogOpenState(false);
   }
 
-
-
   useEffect(() => {
     async function fetchData() {
+      setIsFetching(true);
       const patientsData = await getAllPatients();
       const formatedPatientData = patientsData.patients.map((patient) =>
         formatPatientData(patient)
       );
       setPatients(formatedPatientData);
+      if (patientsData) {
+        setIsFetching(false);
+      }
     }
 
     fetchData();
@@ -54,49 +56,20 @@ export default function MyPatients() {
   async function openUpdateModal() {
     const patientId = selectionModel[0];
     const patient = await getPatientById(patientId);
+
     setPatientDataUpdate(patient);
     patientEmail.current = patient.email;
-    setModalOpenState(true);
+    setOpenModal(true);
     return patient;
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    setBackdropState(true);
-    const isValidCEP = await validatePatientCEP(patientDataUpdate.cep);
-    if (isValidCEP) {
-      const { patientId } = patientDataUpdate;
-      let newValues = Object.keys(patientDataUpdate)
-        .map((updateKey, index) => {
-          if (updateKey !== "patientId") {
-            const updateValue = Object.values(patientDataUpdate)[index];
-            if (updateValue !== patientEmail.current)
-              return { updateKey, updateValue };
-          }
-        })
-        .filter((updateValue) => updateValue);
-
-      const updatedValues = { newPatientData: newValues };
-      const response = await updatePatientData(patientId, updatedValues);
-      setBackdropState(false);
-
-      if (!response?.error) {
-        updatePatientList();
-        setModalOpenState(false);
-      }
-    } else {
-      setBackdropState(false);
-    }
   }
 
   async function deletePatients() {
     setDialogOpenState(true);
     const body = { patients: selectionModel };
-    setBackdropState(true);
+    setOpenBackdrop(true);
     await deletePatientsData(body);
     await updatePatientList();
-    setBackdropState(false);
+    setOpenBackdrop(false);
   }
 
   return (
@@ -108,25 +81,23 @@ export default function MyPatients() {
       </p>
 
       <SimpleDialog open={dialogOpenState} onClose={handleCloseDialog} />
-      <Modal
-        modalOpenState={modalOpenState}
-        setModalOpenState={setModalOpenState}
-      >
+
+      <Modal modalOpenState={modalOpenState} setModalOpenState={setOpenModal}>
         <Backdrop backdropState={backdropState} />
         <div>
           <h1>Atualize os dados do paciente</h1>
           <PatientForm
-            handleSubmit={handleSubmit}
+            setOpenBackdrop={setOpenBackdrop}
             context={"update"}
-            required={false}
-            setPatientData={setPatientDataUpdate}
-            patientData={patientDataUpdate}
-            patientId={selectionModel[0]}
-            setOpenModal={setModalOpenState}
+            setOpenModal={setOpenModal}
+            setPatientData={{ setPatientDataUpdate }}
             updatePatientList={updatePatientList}
+            patientData={patientDataUpdate}
+            setSelectionModel={setSelectionModel}
           />
         </div>
       </Modal>
+
       <nav>
         <UpdateButton
           selectionModel={selectionModel}
@@ -144,6 +115,7 @@ export default function MyPatients() {
         </DeleteButton>
       </nav>
       <DataGridComponent
+        isFetching={isFetching}
         rows={patients}
         setSelectionModel={setSelectionModel}
       />

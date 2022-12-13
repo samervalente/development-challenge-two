@@ -16,7 +16,6 @@ async function getStates() {
 async function getPatientAddress(cep) {
   try {
     const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-    console.log(data)
     return data;
   } catch (error) {
     return { error };

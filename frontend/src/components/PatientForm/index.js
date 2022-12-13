@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import StyledForm from "./styles";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import { MenuItem } from "@mui/material";
+import { MenuItem, FormControl, TextField } from "@mui/material";
 import Button from "../Button";
-import { getStates, getPatientAddress } from "../../services/address";
+import { getStates } from "../../services/address";
 import { useFormik } from "formik";
 import { patientSchema } from "../../schemas/patientSchema";
-import { validatePatientCEP } from "../../utils/patientUtils";
+import { validatePatientCEP, formatUpdateData } from "../../utils/patientUtils";
 import formatDate from "../../utils/dateUtils";
 import { useNavigate } from "react-router-dom";
 import {
@@ -15,7 +13,14 @@ import {
   registerPatientData,
 } from "../../services/patients";
 
-export default function PatientForm({ patientData, setOpenBackdrop, context }) {
+export default function PatientForm({
+  patientData,
+  setOpenBackdrop,
+  setOpenModal,
+  updatePatientList,
+  setSelectionModel,
+  context,
+}) {
   const [states, setStates] = useState([]);
   const navigate = useNavigate();
 
@@ -24,17 +29,28 @@ export default function PatientForm({ patientData, setOpenBackdrop, context }) {
     validationSchema: patientSchema,
     onSubmit: async (values) => {
       setOpenBackdrop(true);
+
       values = { ...values, birthDate: formatDate(values.birthDate) };
       await validatePatientCEP(values.cep);
-      const response =
-        context === "update"
-          ? await updatePatientData(values)
-          : await registerPatientData(values);
 
-      setOpenBackdrop(false);
-      if (response.status === 201) {
-        navigate("/");
+      if (context === "update") {
+        const patientId = patientData.patientId;
+        const updatedValues = await formatUpdateData(values);
+        const { status } = await updatePatientData(patientId, {
+          newPatientData: updatedValues,
+        });
+        if (status === 200) {
+          setSelectionModel([]);
+          updatePatientList();
+          setOpenModal(false);
+        }
+      } else {
+        const { status } = await registerPatientData(values);
+        if (status === 201) {
+          navigate("/");
+        }
       }
+      setOpenBackdrop(false);
     },
   });
 
@@ -70,11 +86,13 @@ export default function PatientForm({ patientData, setOpenBackdrop, context }) {
   }, []);
 
   function renderStates() {
-    return states && states.length > 0
-      ? states.map((state) => {
-          return <MenuItem value={state.sigla}>{state.sigla}</MenuItem>;
-        })
-      : "Carregando estados...";
+    return states && states.length > 0 ? (
+      states.map((state) => {
+        return <MenuItem value={state.sigla}>{state.sigla}</MenuItem>;
+      })
+    ) : (
+      <MenuItem value={"AC"}>AC</MenuItem>
+    );
   }
 
   return (
@@ -143,7 +161,6 @@ export default function PatientForm({ patientData, setOpenBackdrop, context }) {
             helperText={touched.cep && errors.cep}
             onChange={handleChange}
           />
-
           <TextField
             id="uf"
             name="uf"

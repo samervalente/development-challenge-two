@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { DataGrid, ptBR } from "@mui/x-data-grid";
+import { Stack } from "@mui/system";
+import CircularProgress from "@mui/material/CircularProgress";
 
-export default function DataGridComponent({ rows, setSelectionModel }) {
+export default function DataGridComponent({
+  isFetching,
+  rows,
+  setSelectionModel,
+}) {
   const [pageSize, setPageSize] = useState(5);
 
   const columns = [
@@ -19,22 +25,28 @@ export default function DataGridComponent({ rows, setSelectionModel }) {
 
   return (
     <div style={{ height: 500, width: "100%" }}>
-      <DataGrid
-        checkboxSelection
-        disableSelectionOnClick
-        onSelectionModelChange={(newSelectionModel) => {
-          setSelectionModel(newSelectionModel);
-        }}
-        pagination
-        rowsPerPageOptions={[5, 10, 20]}
-        pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        editMode="row"
-        getRowId={(row) => row.patientId}
-        rows={rows}
-        columns={columns}
-        localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
-      />
+      {!isFetching ? (
+        <DataGrid
+          checkboxSelection
+          disableSelectionOnClick
+          onSelectionModelChange={(newSelectionModel) => {
+            setSelectionModel(newSelectionModel);
+          }}
+          pagination
+          rowsPerPageOptions={[5, 10, 20]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          editMode="row"
+          getRowId={(row) => row.patientId}
+          rows={rows}
+          columns={columns}
+          localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+        />
+      ) : (
+        <Stack alignItems={"center"} justifyContent="center" height={"100%"}>
+          <CircularProgress />
+        </Stack>
+      )}
     </div>
   );
 }

@@ -16,7 +16,7 @@ const patientSchema = Yup.object().shape({
     .required("A data de nascimento do paciente é obrigatória"),
   cep: Yup.string()
     .min(8, "O CEP do paciente é inválido")
-    .max(8)
+    .max(9)
     .required("O CEP do paciente é obrigatório"),
   uf: Yup.string().min(2).max(2).required("O estado do paciente é obrigatório"),
   city: Yup.string().required("A cidade do paciente é obrigatória"),

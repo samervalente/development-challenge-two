@@ -32,4 +32,17 @@ async function validatePatientCEP(cep) {
   return true;
 }
 
-export { formatPatientData, validatePatientCEP };
+async function formatUpdateData(patientData) {
+  const formatedData = Object.keys(patientData)
+    .map((updateKey, index) => {
+      const updateValue = Object.values(patientData)[index];
+      if (updateKey !== "patientId") {
+        return { updateKey, updateValue };
+      }
+    })
+    .filter((newValue) => newValue);
+
+  return formatedData;
+}
+
+export { formatPatientData, validatePatientCEP, formatUpdateData };
