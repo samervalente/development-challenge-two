@@ -112,7 +112,7 @@ export default function MyPatients() {
         onClose={() => setDialogOpenState(false)}
       >
         <DialogTitle>Deseja mesmo remover este paciente?</DialogTitle>
-        <DialogActions justifyContent={"flex-start"}>
+        <DialogActions>
           <MuiButton autoFocus onClick={cancelDeletePatients}>
             Cancelar
           </MuiButton>
