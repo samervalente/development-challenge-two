@@ -9,9 +9,16 @@ const Button = styled.button`
   font-size: 14px;
   transition: all linear 0.3s;
   background-color: ${(props) => {
-    if (props.variant === "disabled") return "gray";
-    if (props.variant === "delete") return "red";
-    return "#016EA5";
+    switch (props.variant) {
+      case "secondary":
+        return "orange";
+      case "disabled":
+        return "gray";
+      case "delete":
+        return "red";
+      default:
+        return "#016EA5";
+    }
   }};
   margin-top: 15px;
 

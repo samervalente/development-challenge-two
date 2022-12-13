@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import { StyledContainer, DeleteButton, UpdateButton } from "./styles";
-import Button from "../../components/Button";
 import Backdrop from "../../components/Backdrop";
 import SimpleDialog from "../../components/Dialog";
 import Modal from "../../components/Modal";

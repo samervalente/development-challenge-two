@@ -46,8 +46,6 @@ export default function PatientForm({
 
       const isValidCEP = await validatePatientCEP(values.cep);
       if(!isValidCEP) {
-        const newValues = JSON.parse(localStorage.getItem("patientData"))
-        localStorage.setItem("patientData", JSON.stringify({...newValues, ...patientData}))
         setOpenBackdrop(false);
         return;
       }
@@ -248,13 +246,12 @@ export default function PatientForm({
       <div>
         <Button type="submit">
           {context === "update" ? "Salvar Alterações" : "Registrar Paciente"}
-        </Button>
-       
+        </Button>    
       </div>
-
     </StyledForm>
-    {context !== 'update' && <Button 
-    onClick={clearFields}>Limpar campos
+    {context !== 'update' && 
+    <Button 
+      onClick={clearFields} variant="secondary">Limpar campos
     </Button>}
     </>
   );
