@@ -1,20 +1,19 @@
 import { useEffect, useState, useRef } from "react";
 import { StyledContainer, DeleteButton, UpdateButton } from "./styles";
+import Button from "../../components/Button";
 import Backdrop from "../../components/Backdrop";
+import SimpleDialog from "../../components/Dialog";
+import Modal from "../../components/Modal";
+import DataGridComponent from "../../components/DataGrid";
+import PatientForm from "../../components/PatientForm";
+import { DialogTitle, DialogActions, Button as MuiButton } from "@mui/material";
+
 import {
   getAllPatients,
   getPatientById,
-  updatePatientData,
   deletePatientsData,
 } from "../../services/patients";
-import SimpleDialog from "../../components/Dialog";
-import DataGridComponent from "../../components/DataGrid";
-import {
-  formatPatientData,
-  validatePatientCEP,
-} from "../../utils/patientUtils";
-import Modal from "../../components/Modal";
-import PatientForm from "../../components/PatientForm";
+import { formatPatientData } from "../../utils/patientUtils";
 
 export default function MyPatients() {
   const [fetchDependecy, setFetchDependecy] = useState(false);
@@ -26,12 +25,6 @@ export default function MyPatients() {
   const [dialogOpenState, setDialogOpenState] = useState(false);
   const [modalOpenState, setOpenModal] = useState(false);
   const [backdropState, setOpenBackdrop] = useState(false);
-
-  const patientEmail = useRef("");
-
-  function handleCloseDialog() {
-    setDialogOpenState(false);
-  }
 
   useEffect(() => {
     async function fetchData() {
@@ -58,18 +51,22 @@ export default function MyPatients() {
     const patient = await getPatientById(patientId);
 
     setPatientDataUpdate(patient);
-    patientEmail.current = patient.email;
     setOpenModal(true);
     return patient;
   }
 
   async function deletePatients() {
-    setDialogOpenState(true);
-    const body = { patients: selectionModel };
+    setDialogOpenState(false);
     setOpenBackdrop(true);
+    const body = { patients: selectionModel };
     await deletePatientsData(body);
     await updatePatientList();
+    setSelectionModel([]);
     setOpenBackdrop(false);
+  }
+
+  function cancelDeletePatients() {
+    setDialogOpenState(false);
   }
 
   return (
@@ -79,9 +76,6 @@ export default function MyPatients() {
         Aqui você pode ver e gerenciar todos seus pacientes cadastrados. Faça
         também modificações como atualizar e excluir seus respectivos dados.{" "}
       </p>
-
-      <SimpleDialog open={dialogOpenState} onClose={handleCloseDialog} />
-
       <Modal modalOpenState={modalOpenState} setModalOpenState={setOpenModal}>
         <Backdrop backdropState={backdropState} />
         <div>
@@ -97,16 +91,15 @@ export default function MyPatients() {
           />
         </div>
       </Modal>
-
       <nav>
-        <UpdateButton
-          selectionModel={selectionModel}
-          onClick={openUpdateModal}
-          primary
-        >
+        <UpdateButton selectionModel={selectionModel} onClick={openUpdateModal}>
           Editar dados do paciente
         </UpdateButton>
-        <DeleteButton selectionModel={selectionModel}>
+        <DeleteButton
+          variant={"delete"}
+          selectionModel={selectionModel}
+          onClick={() => setDialogOpenState(true)}
+        >
           Remover
           {selectionModel.length > 1
             ? " pacientes selecionados"
@@ -114,6 +107,18 @@ export default function MyPatients() {
           ({selectionModel.length})
         </DeleteButton>
       </nav>
+      <SimpleDialog
+        openDialog={dialogOpenState}
+        onClose={() => setDialogOpenState(false)}
+      >
+        <DialogTitle>Deseja mesmo remover este paciente?</DialogTitle>
+        <DialogActions justifyContent={"flex-start"}>
+          <MuiButton autoFocus onClick={cancelDeletePatients}>
+            Cancelar
+          </MuiButton>
+          <MuiButton onClick={() => deletePatients()}>Ok</MuiButton>
+        </DialogActions>
+      </SimpleDialog>
       <DataGridComponent
         isFetching={isFetching}
         rows={patients}

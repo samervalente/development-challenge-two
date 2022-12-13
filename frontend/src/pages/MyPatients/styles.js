@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Container from "../../components/Container";
+import Button from "../../components/Button";
 
 const StyledContainer = styled(Container)`
   flex-direction: column;
@@ -7,11 +8,6 @@ const StyledContainer = styled(Container)`
   padding: 20px;
   width: 100%;
   gap: 15px;
-
-  nav {
-    display: flex;
-    gap: 10px;
-  }
 
   h1 {
     font-size: 35px;
@@ -22,25 +18,22 @@ const StyledContainer = styled(Container)`
   p {
     color: #7e7979;
   }
-`;
 
-const Button = styled.button`
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  transition: all linear 0.3s;
-  background-color: ${(props) => (props.primary ? "#016EA5" : "orange")};
+  nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-  :hover {
-    background-color: rebeccapurple;
+  .delete-options {
+    background-color: red;
   }
 `;
 
 const DeleteButton = styled(Button)`
+  width: 25%;
   display: ${(props) => (props.selectionModel?.length > 0 ? "block" : "none")};
-  background-color: red;
 `;
 
 const UpdateButton = styled(Button)`
@@ -48,4 +41,4 @@ const UpdateButton = styled(Button)`
     props.selectionModel?.length === 1 ? "block" : "none"};
 `;
 
-export { StyledContainer, Button, DeleteButton, UpdateButton };
+export { StyledContainer, DeleteButton, UpdateButton };
