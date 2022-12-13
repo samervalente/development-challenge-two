@@ -49,7 +49,6 @@ export default function PatientForm({
        
         const patientId = patientData.patientId;
         const updatedValues = await formatUpdateData(values);
-        console.log(updatedValues)
         const { status } = await updatePatientData(patientId, {
           newPatientData: updatedValues,
         });
@@ -58,6 +57,7 @@ export default function PatientForm({
         updatePatientList();
         setOpenModal(false);
       } else {
+        delete values.patientId
         const { status } = await registerPatientData(values);
 
         status === 201 && navigate("/");
