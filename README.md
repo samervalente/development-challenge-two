@@ -2,23 +2,23 @@
 
 
 <p align="center">
- 
+ <a href="https://ibb.co/fDVXP4z"><img src="https://i.ibb.co/PDsrfwv/Mac-Book-Pro-16.png" alt="Mac-Book-Pro-16" border="0"></a>
 </p>
  
-<p align = "center">
+<div align = "center">
    <img src="https://img.shields.io/badge/author-Samer Valente-4dae71?style=flat-square" />
-   <img src="https://img.shields.io/badge/projeto-Medcloud Development Challenge Two-4dae71?style=flat-square" />
+   <img src="https://img.shields.io/badge/project-Medcloud Development Challenge Two-4dae71?style=flat-square" />
    
-</p>
+</div>
 
 
-##  :clipboard: Descrição
+##  :clipboard: Description
 
 With the increasingly technological world, we need to make the information we deal with on a daily basis more reliable, organized and dynamic. Therefore, this project has as its main objective to carry out all the management of patients registered in the system, such as registration, listing, updating and deletion of their data.
 
 ***
 
-## :computer:	 Tecnologias e Conceitos
+## :computer:	 Technologies
 
 - REST APIs with API Gateway
 - AWS Lambda for serveless
@@ -34,7 +34,7 @@ With the increasingly technological world, we need to make the information we de
 ```yml
 POST /patients
     -Route to register a new patient
-    - headers: {}
+    - headers: null
     - body:{
         "patientName": "Lorem ipsum",
         "email": "lorem@gmail.com",
