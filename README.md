@@ -14,7 +14,7 @@
 
 ##  :clipboard: Descrição
 
-Com o mundo cada vez mais tecnológico, precisamos tornar as informações que lidamos diariamente mais confiáveis, organizadas e dinâmicas. Sendo assim, este projeto possui como seu principal objetivo realizar todo o gerenciamento de pacientes cadastrados no sistema tal como registro, listagem, atualização e deleção de seus dados.
+With the increasingly technological world, we need to make the information we deal with on a daily basis more reliable, organized and dynamic. Therefore, this project has as its main objective to carry out all the management of patients registered in the system, such as registration, listing, updating and deletion of their data.
 
 ***
 
@@ -33,7 +33,7 @@ Com o mundo cada vez mais tecnológico, precisamos tornar as informações que l
 
 ```yml
 POST /patients
-    - Rota para cadastrar um novo paciente
+    -Route to register a new patient
     - headers: {}
     - body:{
         "patientName": "Lorem ipsum",
@@ -50,21 +50,21 @@ POST /patients
     
 ```yml 
 GET /patients
-    - Rota para listar todos os pacientes
+    - Route to list all patients
     - headers: null
     - body: null
 ```
     
 ```yml 
 GET /patients/:id 
-    - Rota para listar um usuário específico
+    - Route to list a specific patient
     - headers: null
     - body: null
 ```
 
 ```yml
 PATCH /patients/:id
-    - Rota para atualizar os dados de um paciente
+    - Route to update a patient data
     - headers: null
     - body: {
        newPatientData: [
@@ -74,10 +74,12 @@ PATCH /patients/:id
 ``` 
 
 ```yml
-DELETE /patients/:id
-    - Rota para deletar um paciente pelo id
+DELETE /patients
+    - Route to delete patients
     - headers: null
-    - body: null
+    - body: {
+     "patients:":[patientId, patientId, ...]
+        }
 ```
 ***
 
