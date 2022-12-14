@@ -1,71 +1,89 @@
-# Development challenge
+# <p align = "center"> Medcloud Development Challenge Two </p>
 
-![logo medcloud-03 white copy](https://user-images.githubusercontent.com/46347123/158176045-de9fefb0-35e2-4515-83ff-c132608aa870.png)
 
-About Medcloud::
+<p align="center">
+ <a href="https://ibb.co/fDVXP4z"><img src="https://i.ibb.co/PDsrfwv/Mac-Book-Pro-16.png" alt="Mac-Book-Pro-16" border="0"></a>
+</p>
+ 
+<div align = "center">
+   <img src="https://img.shields.io/badge/author-Samer Valente-4dae71?style=flat-square" />
+   <img src="https://img.shields.io/badge/project-Medcloud Development Challenge Two-4dae71?style=flat-square" />
+   
+</div>
 
-We make exams and medical data management more flexible, secure and effective by accelerating the transition from clinics and hospitals to the cloud.
-The RIS and PACS systems have been practically the same for the past 25 years. Interoperability problems, high costs and a lack of understanding about the patient's access to his medical records.
 
-These points defined limits for the doctor-patient relationship and barriers to radiology workflows. We are revolutionizing this through a Care Coordination based solution that improves workflows for providers and integrates doctors and patients for a better experience.
+##  :clipboard: Description
 
-Since our foundation, almost 10 years ago, we have prioritized excellence in the management of health data, structuring workflows of health professionals, clinics, laboratories and hospitals for assertive and quality diagnostics.
+With the increasingly technological world, we need to make the information we deal with on a daily basis more reliable, organized and dynamic. Therefore, this project has as its main objective to carry out all the management of patients registered in the system, such as registration, listing, updating and deletion of their data.
 
-We understand that behind each medical record there is a patient seeking to improve his health and the hope of family members for his well being. After all, we are all patients, and Medcloud's mission is to help you live longer and better. #PatientFirst
+***
 
-Medcloud's challenge for Dev Full Stack.
+## :computer:	 Technologies
 
-## Goal
+- REST APIs with API Gateway
+- AWS Lambda for serveless
+- DynamoDB as cloud database
+- Node.js with express
+- TypeScript
+- React
 
-- To develop a web application (CRUD) to manage patient registers (Patient's name, birth date, email and address) using a cloud database.
+***
 
-## Required
+## :rocket: Rotas
 
-- You need to develop both the front-end and the back-end.
-- In the front-end you MUST use React.
-- In the back-end you MUST use Node.js and AWS free-tier.
-- The patient data should not be static or local.
-- Field validation (date, required fields, etc)
-- AWS RDS MySQL, PostgreSQL or DynamoDB as database.
-- AWS Lambda for serveless computing.
-- AWS API Gateway for managing your REST API.
+```yml
+POST /patients
+    -Route to register a new patient
+    - headers: null
+    - body:{
+        "patientName": "Lorem ipsum",
+        "email": "lorem@gmail.com",
+        "birthDate": "DD/MM/AAAA",
+        "cep":"12345-678",
+        "uf":"SP",
+        "city":"SP",
+        "district":,"Sé",
+        "publicPlace":"Praça da Sé",
+        "complement":"lado ímpar"
+}
+```
+    
+```yml 
+GET /patients
+    - Route to list all patients
+    - headers: null
+    - body: null
+```
+    
+```yml 
+GET /patients/:id 
+    - Route to list a specific patient
+    - headers: null
+    - body: null
+```
 
-## Extra Points
+```yml
+PATCH /patients/:id
+    - Route to update a patient data
+    - headers: null
+    - body: {
+       newPatientData: [
+          {"updatekey":"updateValue"}
+        ]
+    }
+``` 
 
-- Cache the data in-browser.
-- Pagination.
-- Use Material UI - https://material-ui.com.
-- A cool design.
+```yml
+DELETE /patients
+    - Route to delete patients
+    - headers: null
+    - body: {
+     "patients:":[patientId, patientId, ...]
+        }
+```
+***
 
-## References
 
-- Intro to React: https://reactjs.org/tutorial/tutorial.html.
-- Core Components of Amazon DynamoDB: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html.
-- Getting Started with DynamoDB: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStartedDynamoDB.html.
-- Getting started with AWS Lambda: https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html.
-- Create a REST API with Lambda integrations in Amazon API Gateway: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-getting-started-with-rest-apis.html.
+Este projeto foi inicializado com o [Create React App](https://github.com/facebook/create-react-app), então certifique-se que voce tem a ultima versão estável do [Node.js](https://nodejs.org/en/download/) e [npm](https://www.npmjs.com/) rodando localmente.
 
-## What will be evaluated:
 
-- Clean and organized code (naming, etc.)
-- Knowledge of patterns (PSRs, design patterns, SOLID)
-- Be consistent and know how to argue your choices
-- Present solutions you master
-- Data Modeling
-- Code maintainability
-- Error handling
-- Architecture (structuring thought before writing)
-- Affection in decoupling components (other layers, service, repository)
-
-According to the above criteria, we will evaluate your test in order to proceed to the technical interview. If you have not acceptably achieved what we are proposing above, we will not proceed with the process.
-
-## Delivery
-
-You MUST fork this repository to your own account and push you code to it. 
-When you finish it, you must send a email to cv@medcloud.com.br with your curriculum and your fork.
-
-Good luck! Any doubts, feel free to send an email to cv@medcloud.com.br.
-
-## For the day of the technical interview and code review
-
-On the date set by the recruiter, have your application running on your local machine to run the tests and to show us the points developed and possible questions. We will do a code review together with you as if you were already on our team, you will be able to explain what you thought, how you architected and how the project can evolve. Good luck!
