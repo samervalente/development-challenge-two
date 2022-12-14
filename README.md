@@ -1,71 +1,98 @@
-# Development challenge
+# <p align = "center"> Medcloud Development Challenge Two </p>
 
-![logo medcloud-03 white copy](https://user-images.githubusercontent.com/46347123/158176045-de9fefb0-35e2-4515-83ff-c132608aa870.png)
 
-About Medcloud::
+<p align="center">
+   <img src="https://user-images.githubusercontent.com/72531277/178094665-f46c6a55-c821-42a0-bb9c-d5dd5f2d69fa.png"/>
+</p>
 
-We make exams and medical data management more flexible, secure and effective by accelerating the transition from clinics and hospitals to the cloud.
-The RIS and PACS systems have been practically the same for the past 25 years. Interoperability problems, high costs and a lack of understanding about the patient's access to his medical records.
+<p align = "center">
+   <img src="https://img.shields.io/badge/author-SEU_NOME-4dae71?style=flat-square" />
+   <img src="https://img.shields.io/github/languages/count/SEU_NOME/NOME_DO_PROJETO?color=4dae71&style=flat-square" />
+</p>
 
-These points defined limits for the doctor-patient relationship and barriers to radiology workflows. We are revolutionizing this through a Care Coordination based solution that improves workflows for providers and integrates doctors and patients for a better experience.
 
-Since our foundation, almost 10 years ago, we have prioritized excellence in the management of health data, structuring workflows of health professionals, clinics, laboratories and hospitals for assertive and quality diagnostics.
+##  :clipboard: Descrição
 
-We understand that behind each medical record there is a patient seeking to improve his health and the hope of family members for his well being. After all, we are all patients, and Medcloud's mission is to help you live longer and better. #PatientFirst
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla urna massa, mollis id facilisis ut, tristique convallis dolor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas a egestas sapien, lacinia iaculis nisi. Nam molestie fringilla egestas. Vestibulum pulvinar consequat arcu a varius. Vestibulum nec finibus enim. In at lobortis elit. Mauris imperdiet neque quis imperdiet ornare. Maecenas non nulla orci. Vestibulum tempor vitae tortor eget lobortis. Integer sapien eros, condimentum sit amet est at, vulputate efficitur elit. Praesent in velit pharetra, commodo libero a, egestas leo. Sed nunc enim, sodales vel pretium at, sodales a magna. Mauris nec nibh at enim venenatis faucibus. Duis bibendum commodo mattis. Phasellus luctus felis varius porta lacinia.
 
-Medcloud's challenge for Dev Full Stack.
+***
 
-## Goal
+## :computer:	 Tecnologias e Conceitos
 
-- To develop a web application (CRUD) to manage patient registers (Patient's name, birth date, email and address) using a cloud database.
+- REST APIs with API Gateway
+- AWS Lambda for serveless
+- DynamoDB as cloud database
+- Node.js with express
+- TypeScript
+- React
 
-## Required
+***
 
-- You need to develop both the front-end and the back-end.
-- In the front-end you MUST use React.
-- In the back-end you MUST use Node.js and AWS free-tier.
-- The patient data should not be static or local.
-- Field validation (date, required fields, etc)
-- AWS RDS MySQL, PostgreSQL or DynamoDB as database.
-- AWS Lambda for serveless computing.
-- AWS API Gateway for managing your REST API.
+## :rocket: Rotas
 
-## Extra Points
+```yml
+POST /patients
+    - Rota para cadastrar um novo paciente
+    - headers: {}
+    - body:{
+        "patientName": "Lorem ipsum",
+        "email": "lorem@gmail.com",
+        "birthDate": "DD/MM/AAAA",
+        "cep":"12345-678",
+        "uf":"SP",
+        "city":"SP",
+        "district":,"Sé",
+        "publicPlace":"Praça da Sé",
+        "complement":"lado ímpar"
+}
+```
+    
+```yml 
+GET /patients
+    - Rota para listar todos os pacientes
+    - headers: null
+    - body: null
+```
+    
+```yml 
+GET /patients/:id 
+    - Rota para listar um usuário específico
+    - headers: null
+    - body: null
+```
 
-- Cache the data in-browser.
-- Pagination.
-- Use Material UI - https://material-ui.com.
-- A cool design.
+```yml
+PATCH /patients/:id
+    - Rota para atualizar os dados de um paciente
+    - headers: null
+    - body: {
+       newPatientData: [
+          {"updatekey":"updateValue"}
+        ]
+    }
+``` 
 
-## References
+```yml
+DELETE /patients/:id
+    - Rota para deletar um paciente pelo id
+    - headers: null
+    - body: null
+```
+***
 
-- Intro to React: https://reactjs.org/tutorial/tutorial.html.
-- Core Components of Amazon DynamoDB: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html.
-- Getting Started with DynamoDB: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStartedDynamoDB.html.
-- Getting started with AWS Lambda: https://docs.aws.amazon.com/lambda/latest/dg/getting-started.html.
-- Create a REST API with Lambda integrations in Amazon API Gateway: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-getting-started-with-rest-apis.html.
+## 🏁 Rodando a aplicação
 
-## What will be evaluated:
+Este projeto foi inicializado com o [Create React App](https://github.com/facebook/create-react-app), então certifique-se que voce tem a ultima versão estável do [Node.js](https://nodejs.org/en/download/) e [npm](https://www.npmjs.com/) rodando localmente.
 
-- Clean and organized code (naming, etc.)
-- Knowledge of patterns (PSRs, design patterns, SOLID)
-- Be consistent and know how to argue your choices
-- Present solutions you master
-- Data Modeling
-- Code maintainability
-- Error handling
-- Architecture (structuring thought before writing)
-- Affection in decoupling components (other layers, service, repository)
+Primeiro, faça o clone desse repositório na sua maquina
 
-According to the above criteria, we will evaluate your test in order to proceed to the technical interview. If you have not acceptably achieved what we are proposing above, we will not proceed with the process.
+```
 
-## Delivery
+Depois, dentro da pasta, rode o seguinte comando para instalar as dependencias.
 
-You MUST fork this repository to your own account and push you code to it. 
-When you finish it, you must send a email to cv@medcloud.com.br with your curriculum and your fork.
+```
+npm install
+```
 
-Good luck! Any doubts, feel free to send an email to cv@medcloud.com.br.
 
-## For the day of the technical interview and code review
-
-On the date set by the recruiter, have your application running on your local machine to run the tests and to show us the points developed and possible questions. We will do a code review together with you as if you were already on our team, you will be able to explain what you thought, how you architected and how the project can evolve. Good luck!
+:stop_sign: Não esqueça de repetir os passos acima com o [repositório](https://github.com/luanalessa/projeto-frontend.git) que contem a interface da aplicação, para testar o projeto por completo.
