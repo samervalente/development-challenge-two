@@ -1,6 +1,6 @@
 const patientService  = require("../services/patientService");
 
-async function registerPatientData(req, res, next) {
+async function registerPatientData(req, res) {
  try{
     const requestBody = req.body;
   

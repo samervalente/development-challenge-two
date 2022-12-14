@@ -6,7 +6,4 @@ declare interface AppGenericProps {
   props2: Props & React.ComponentPropsWithRef<MyButtonWithForwardRef>;
 }
 
-declare module "*.png" {
-  const path: string;
-  export default path;
-}
+declare module "*.png" 

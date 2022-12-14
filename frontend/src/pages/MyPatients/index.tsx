@@ -22,8 +22,8 @@ import { TPatients } from "../../@types/patient";
 import { IPatientData, IFormatedPatientData } from "../../interfaces/patients";
 
 export default function MyPatients() {
-  const [fetchDependecy, setFetchDependecy] = useState<boolean>(false);
-  const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [fetchDependecy, setFetchDependecy] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [patients, setPatients] = useState<Array<TPatients>>([]);
   const [patientDataUpdate, setPatientDataUpdate] = useState({});
   const [selectionModel, setSelectionModel] = useState([]);
@@ -127,7 +127,7 @@ export default function MyPatients() {
           <GenericButton autoFocus onClick={cancelDeletePatients}>
             Cancelar
           </GenericButton>
-          <GenericButton onClick={() => deletePatients()}>Ok</GenericButton>
+          <GenericButton onClick={deletePatients}>Ok</GenericButton>
         </DialogActions>
       </SimpleDialog>
       <DataGridComponent
