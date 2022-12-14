@@ -54,7 +54,6 @@ async function updatePatientData(req, res) {
   
     return res.status(200).send("Patient updated successfully.");
   } catch (error) {
-    console.log(error)
     res.sendStatus(500);
   }
 }
@@ -71,7 +70,6 @@ async function deletePatientData(req, res) {
   
     return res.status(200).send("Patient(s) deleted successfully.");
   } catch (error) {
-    console.log(error)
     res.sendStatus(500);
   }
 }
