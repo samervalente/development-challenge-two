@@ -12,19 +12,19 @@ async function validatePatientRequestBody(req, res, next){
 }
 
 async function validatePatientUpdateRequestBody(req, res, next){
-  const {updateData} = req.body
-  for(const newData of updateData){
+  const {newPatientData} = req.body
+  for(const newData of newPatientData){
     const {updateKey, updateValue} = newData
     const updateData = {[updateKey]: updateValue}
     const { error } = updatePatientSchema.validate(updateData, {abortEarly:false});
 
     if (error) {
       const errors = error.details.map((detail) => (detail.message).replaceAll('"', ""));
-      throw wrongSchemaError(errors)
+      res.status(422).send(errors)
       
     }
   }
-
+  
   next()
 }
 

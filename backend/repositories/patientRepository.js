@@ -26,23 +26,23 @@ async function insertPatientData(requestBody) {
   await dynamoClient.put(params).promise();
 }
 
-async function getPatients() {
+async function getPatients(){
   const params = {
     TableName: dynamoDBTableName,
   };
 
   const allPatients = await scanDynamoRecords(params, []);
-  return allPatients;
+  return allPatients
 }
 
 async function scanDynamoRecords(params, records) {
-  const dynamoData = await dynamoClient.scan(params).promise();
-  records = records.concat(dynamoData.Items);
-  if (dynamoData.LastEvaluatedKey) {
-    params.ExclusiveStartkey = dynamoData.LastEvaluatedKey;
-    return await scanDynamoRecords(params, records);
-  }
-  return records;
+    const dynamoData = await dynamoClient.scan(params).promise();
+    records = records.concat(dynamoData.Items);
+    if (dynamoData.LastEvaluatedKey) {
+      params.ExclusiveStartkey = dynamoData.LastEvaluatedKey;
+      return await scanDynamoRecords(params, records);
+    }
+    return records;
 }
 
 async function getPatientById(patientId) {
@@ -56,44 +56,37 @@ async function getPatientById(patientId) {
   return patient;
 }
 
-async function updatePatientData(patientId, newPatientData) {
-  for (let newData of newPatientData) {
-    const { updateKey, updateValue } = newData;
-    const params = {
-      TableName: dynamoDBTableName,
-      Key: {
-        'patientId': patientId,
-      },
-      UpdateExpression: `set ${updateKey} = :updateValue`,
-      ExpressionAttributeValues: {
-        ":updateValue": updateValue,
-      },
-      ReturnValues: "UPDATED_NEW",
-    };
-
-    await dynamoClient.update(params).promise();
-  }
+async function updatePatientData(patientId, newPatientData){
+   for(let newData of newPatientData){
+     const {updateKey, updateValue} = newData
+     const params = {
+    TableName: dynamoDBTableName,
+    Key: {
+      'patientId': patientId,
+    },
+    UpdateExpression: `set ${updateKey} = :updateValue`,
+    ExpressionAttributeValues: {
+      ':updateValue': updateValue,
+    },
+    ReturnValues:'UPDATED_NEW'
+  };
+  
+   await dynamoClient.update(params).promise();
+   }
 }
 
 async function deletePatientData(patients) {
-  for (let patientId of patients) {
+  for(let patientId of patients){
     const params = {
-      TableName: dynamoDBTableName,
-      Key: {
-        'patientId': patientId,
-      },
-      ReturnValues: "ALL_OLD",
-    };
+    TableName: dynamoDBTableName,
+    Key: {
+      'patientId': patientId,
+    },
+    ReturnValues: "ALL_OLD",
+  };
 
-    await dynamoClient.delete(params).promise();
+  await dynamoClient.delete(params).promise();
   }
 }
 
-module.exports = {
-  getPatientByEmail,
-  insertPatientData,
-  getPatients,
-  getPatientById,
-  updatePatientData,
-  deletePatientData,
-};
+module.exports = { getPatientByEmail, insertPatientData, getPatients, getPatientById, updatePatientData, deletePatientData };

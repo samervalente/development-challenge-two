@@ -1,13 +1,15 @@
-export function isAppError(error) {
+function isAppError(error) {
   return error.type !== undefined;
 }
 
-export function errorTypeToStatusCode(type) {
+function errorTypeToStatusCode(type) {
   switch (type) {
     case "conflict":
       return 409;
     case "not_found":
       return 404;
+    case "unauthorized":
+      return 401;
     case "wrong_schema":
       return 422;
 
@@ -33,5 +35,5 @@ module.exports = {
   errorTypeToStatusCode,
   conflictError,
   notFoundError,
-  wrongSchemaError,
+  wrongSchemaError
 };
