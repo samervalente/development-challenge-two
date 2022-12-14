@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { HamburguerContainer, NavContainer, NavigationOption } from "./styles";
 import medcloudlogo from "../../assets/images/medcloudlogo.png";
@@ -8,10 +9,14 @@ import { Drawer } from "@mui/material";
 
 export default function NavBar() {
   const location = useLocation();
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState<boolean>(false);
 
-  function isActive(buttonPath) {
+  function isActive(buttonPath: string) {
     return location.pathname === buttonPath;
+  }
+
+  function closeDrawer() {
+    setOpen(false);
   }
 
   return (
@@ -32,11 +37,11 @@ export default function NavBar() {
             width: "auto",
             height: "100vh",
             bgcolor: "#002137",
-            pl: 2,
+            p: "10px 10px",
           },
         }}
         open={isOpen}
-        onClose={() => setOpen(false)}
+        onClose={closeDrawer}
       >
         <NavContainer>
           <header>
@@ -46,20 +51,17 @@ export default function NavBar() {
             </h3>
           </header>
           <main>
-            <NavLink to="/" activeclassname="is-active">
-              <NavigationOption
-                active={isActive("/")}
-                onClick={() => setOpen(false)}
-              >
+            <NavLink to="/" className="is-active">
+              <NavigationOption active={isActive("/")} onClick={closeDrawer}>
                 <PeopleAlt />
                 <span>Meus Pacientes</span>
               </NavigationOption>
             </NavLink>
 
-            <NavLink to="/patients/register" activeclassname="is-active">
+            <NavLink to="/patients/register" className="is-active">
               <NavigationOption
                 active={isActive("/patients/register")}
-                onClick={() => setOpen(false)}
+                onClick={closeDrawer}
               >
                 <PersonAddAlt1 />
                 <span>Novo Paciente</span>

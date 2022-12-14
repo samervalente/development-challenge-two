@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import { StyledContainer, DeleteButton, UpdateButton } from "./styles";
 import Backdrop from "../../components/Backdrop";
 import SimpleDialog from "../../components/Dialog";
@@ -17,11 +18,13 @@ import {
   deletePatientsData,
 } from "../../services/patients";
 import { formatPatientData } from "../../utils/patientUtils";
+import { TPatients } from "../../@types/patient";
+import { IPatientData, IFormatedPatientData } from "../../interfaces/patients";
 
 export default function MyPatients() {
-  const [fetchDependecy, setFetchDependecy] = useState(false);
-  const [isFetching, setIsFetching] = useState(true);
-  const [patients, setPatients] = useState([]);
+  const [fetchDependecy, setFetchDependecy] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [patients, setPatients] = useState<Array<TPatients>>([]);
   const [patientDataUpdate, setPatientDataUpdate] = useState({});
   const [selectionModel, setSelectionModel] = useState([]);
 
@@ -32,10 +35,11 @@ export default function MyPatients() {
   useEffect(() => {
     async function fetchData() {
       setIsFetching(true);
-      const patientsData = await getAllPatients();
-      const formatedPatientData = patientsData.patients.map((patient) =>
-        formatPatientData(patient)
-      );
+      const patientsData: TPatients = await getAllPatients();
+      const formatedPatientData: IFormatedPatientData[] | any =
+        patientsData?.patients.map((patient: IPatientData) =>
+          formatPatientData(patient)
+        );
       setPatients(formatedPatientData);
       if (patientsData) {
         setIsFetching(false);
@@ -56,6 +60,10 @@ export default function MyPatients() {
     setPatientDataUpdate(patient);
     setOpenModal(true);
     return patient;
+  }
+
+  function closeModal() {
+    setOpenModal(false);
   }
 
   async function deletePatients() {
@@ -79,17 +87,17 @@ export default function MyPatients() {
         Aqui você pode ver e gerenciar todos seus pacientes cadastrados. Faça
         também modificações como atualizar e excluir seus respectivos dados.{" "}
       </p>
-      <Modal modalOpenState={modalOpenState} setModalOpenState={setOpenModal}>
-        <Backdrop backdropState={backdropState} />
+
+      <Modal open={modalOpenState} onClose={closeModal}>
         <div>
+          <Backdrop open={backdropState} />
           <h1>Atualize os dados do paciente</h1>
           <PatientForm
             setOpenBackdrop={setOpenBackdrop}
             context={"update"}
             setOpenModal={setOpenModal}
-            setPatientData={{ setPatientDataUpdate }}
             updatePatientList={updatePatientList}
-            patientData={patientDataUpdate}
+            updatePatientData={patientDataUpdate}
             setSelectionModel={setSelectionModel}
           />
         </div>
@@ -111,7 +119,7 @@ export default function MyPatients() {
         </DeleteButton>
       </nav>
       <SimpleDialog
-        openDialog={dialogOpenState}
+        open={dialogOpenState}
         onClose={() => setDialogOpenState(false)}
       >
         <DialogTitle>Deseja mesmo remover este paciente?</DialogTitle>

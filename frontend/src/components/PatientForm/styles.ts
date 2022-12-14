@@ -9,8 +9,6 @@ const StyledForm = styled.form`
     display: flex;
     align-items: center;
     gap: 20px;
-
-
   }
 
   @media (max-width: 600px) {

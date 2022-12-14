@@ -1,3 +1,4 @@
+import React from "react";
 import "./styles/reset.css";
 import "./styles/global.css";
 import styled from "styled-components";
@@ -28,7 +29,7 @@ function App() {
 const Container = styled.div`
   display: flex;
 
-  @media (max-width:600px){
+  @media (max-width: 600px) {
     flex-direction: column;
   }
 `;

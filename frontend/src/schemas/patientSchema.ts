@@ -4,10 +4,10 @@ const regexDate = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/;
 const regexCEP = /^[0-9]{5}[0-9]{3}$/;
 
 const patientSchema = Yup.object().shape({
-  patientName: Yup.string("O nome do paciente deve ser um texto válido")
+  patientName: Yup.string()
     .min(3, "Nome deve haver pelo menos 3 caracteres")
     .required("O nome do paciente é obrigatório"),
-  email: Yup.string("O email do paciente deve ser um texto válido")
+  email: Yup.string()
     .email("Insira um email válido")
     .required("O email do paciente é obrigatório"),
   birthDate: Yup.string()

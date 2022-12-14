@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["es6", "dom"],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "target": "es2016",                                  
+    
+    "module": "commonjs",                                
+
+    "esModuleInterop": true,                             
+                        
+    "forceConsistentCasingInFileNames": true,            
+
+ 
+    "strict": true,                                      
+    "skipLibCheck": true                                 
+  },
+  "include": [
+    "./src/@types/index.d.ts",
+    "./src/assets/**/*.png"
+  ]
+}

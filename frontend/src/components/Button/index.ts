@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+type TButtonProps  = {
+  variant?: string
+}
+
 const Button = styled.button`
   color: white;
   border: none;
@@ -8,7 +12,7 @@ const Button = styled.button`
   border-radius: 5px;
   font-size: 14px;
   transition: all linear 0.3s;
-  background-color: ${(props) => {
+  background-color: ${(props: TButtonProps) => {
     switch (props.variant) {
       case "secondary":
         return "#002E82";

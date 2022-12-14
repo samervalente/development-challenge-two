@@ -1,4 +1,4 @@
-import { getPatientAddress } from "../services/address";
+import { getPatientAddress } from "../services/address.ts";
 import { toast } from "react-toastify";
 
 function formatPatientData(patientData) {
@@ -25,7 +25,6 @@ function formatPatientData(patientData) {
 
 async function validatePatientCEP(cep) {
   const data = await getPatientAddress(cep);
-  console.log(data);
   if (data.erro) {
     toast.error("Não foi possível carregar o endereço deste CEP");
     return false;

@@ -1,14 +1,21 @@
+import React from 'react'
 import { useState } from "react";
 import { DataGrid, ptBR } from "@mui/x-data-grid";
 import { Stack } from "@mui/system";
 import CircularProgress from "@mui/material/CircularProgress";
+import { DataGridProps } from "@mui/x-data-grid";
+
+interface IDataGridComponentProps extends DataGridProps {
+  isFetching: boolean;
+  setSelectionModel: Function;
+}
 
 export default function DataGridComponent({
   isFetching,
   rows,
   setSelectionModel,
-}) {
-  const [pageSize, setPageSize] = useState(5);
+}: IDataGridComponentProps) {
+  const [pageSize, setPageSize] = useState<number>(5);
 
   const columns = [
     { field: "patientName", headerName: "Nome", width: 200 },

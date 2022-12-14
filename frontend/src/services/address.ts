@@ -1,5 +1,15 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ChangeEvent } from "react";
+
+interface IAddress {
+  uf: string;
+  cidade: string;
+  bairro: string;
+  logradouro: string;
+  complemento?: string;
+  cep: string;
+}
 
 async function getStates() {
   try {
@@ -13,16 +23,21 @@ async function getStates() {
   }
 }
 
-async function getPatientAddress(cep) {
+async function getPatientAddress(cep: number) {
   try {
-    const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    const { data } = await axios.get<IAddress | null>(
+      `https://viacep.com.br/ws/${cep}/json/`
+    );
     return data;
   } catch (error) {
     return { error };
   }
 }
 
-function onBlurCep(ev, setFieldValue) {
+function onBlurCep(
+  ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  setFieldValue: Function
+) {
   const { value } = ev.target;
 
   const cep = value?.replace(/[^0-9]/g, "");

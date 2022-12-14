@@ -1,35 +1,50 @@
 import api from "./api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  TPatients,
+  TPatientDataValues,
+  TNewPatientData,
+} from "../@types/patient";
+import { AxiosResponse } from "axios";
 
-async function getAllPatients() {
+interface IDeletePatientId {
+  patientId: string;
+}
+
+type TDeletePayload = {
+  patients: IDeletePatientId[];
+};
+
+async function getAllPatients(): Promise<TPatients> {
   try {
     const { data } = await api.get("/patients");
 
     return data;
   } catch (error) {
     toast.error("Não foi possível carregar a lista de pacientes.");
+    return error;
   }
 }
 
-async function registerPatientData(payload) {
+async function registerPatientData(
+  payload: TPatientDataValues
+): Promise<AxiosResponse> {
   try {
     const response = await api.post("/patients", payload);
     toast.success("Paciente registrado com sucesso.");
     return response;
   } catch (error) {
-    console.log(error);
     if (error.response.status === 409) {
       toast.error("Este email já está cadastrado no sistema.");
     } else if (error.response.status === 422) {
       toast.error("Dados inválidos, por favor verifique.");
     }
-
-    return { error: error.response };
+    return error;
   }
 }
 
-async function getPatientById(patientId) {
+async function getPatientById(patientId: string) {
   try {
     const { data } = await api.get(`/patients/${patientId}`);
     return data;
@@ -38,24 +53,26 @@ async function getPatientById(patientId) {
   }
 }
 
-async function updatePatientData(patientId, newPatientData) {
+async function updatePatientData(
+  patientId: number,
+  newPatientData: TNewPatientData | any
+): Promise<AxiosResponse> {
   try {
     const response = await api.patch(`/patients/${patientId}`, newPatientData);
     toast.success("Os dados do paciente foram atualizados com sucesso.");
-    return response
+    return response;
   } catch (error) {
-    console.log(error);
     if (error.response?.status === 409) {
       toast.error("Este email já está cadastrado no sistema.");
     } else if (error.response?.status === 422) {
       toast.error("Dados inválidos, por favor verifique.");
     }
 
-    return { error: error.response };
+    return error;
   }
 }
 
-async function deletePatientsData(payload) {
+async function deletePatientsData(payload: TDeletePayload) {
   try {
     const body = { data: payload };
     await api.delete("/patients", body);

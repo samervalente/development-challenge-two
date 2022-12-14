@@ -1,9 +1,13 @@
 import styled from "styled-components";
 import Container from "../Container";
 
+interface IThemedProps {
+  active: boolean;
+}
+
 const HamburguerContainer = styled(Container)`
   background-color: #002137;
-  max-width: 80px;
+  max-width: 60px;
   max-height: 100vh;
   justify-content: center;
   align-items: center;
@@ -53,16 +57,15 @@ const NavContainer = styled(Container)`
 
     header {
       align-items: center;
-      
+
       img {
         width: 50%;
       }
 
-      h3{
-        display:none;
+      h3 {
+        display: none;
       }
     }
-    
   }
 `;
 
@@ -73,7 +76,7 @@ const NavigationOption = styled.div`
   cursor: pointer;
   border-radius: 4px;
   padding: 7px;
-  ${(props) => (props.active ? "background-color: #1e81b0;" : "")}
+  ${(props: IThemedProps) => (props.active ? "background-color: #1e81b0;" : "")}
 
   & > *:first-child {
     color: #abdbe3;
@@ -83,6 +86,5 @@ const NavigationOption = styled.div`
     height: 30px;
   }
 `;
-
 
 export { NavContainer, NavigationOption, HamburguerContainer };
