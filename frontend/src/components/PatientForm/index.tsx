@@ -15,19 +15,11 @@ import {
   registerPatientData,
 } from "../../services/patients";
 import { getStates, onBlurCep } from "../../services/address";
-import { TPatientDataValues } from "../../@types/patient";
+import dayjs from "dayjs";
 
 interface IState {
   sigla: string;
 }
-
-type TPatientForm = {
-  patientData?: TPatientDataValues;
-  setOpenBackdrop: Function;
-  setOpenModal: Function;
-  updatePatientList?: Function;
-  context?: string;
-};
 
 export default function PatientForm({
   updatePatientData,
@@ -36,8 +28,9 @@ export default function PatientForm({
   updatePatientList,
   setSelectionModel,
   context,
-}: TPatientForm | any) {
+}) {
   const [states, setStates] = useState<Array<IState>>([]);
+
   const navigate = useNavigate();
 
   function getInitialValues() {
@@ -77,6 +70,11 @@ export default function PatientForm({
         return;
       }
 
+      values = {
+        ...values,
+        birthDate: dayjs(values.birthDate).format("DD/MM/YYYY"),
+      };
+
       if (context === "update") {
         const patientId = values.patientId;
         const updatedValues = await formatUpdateData(values);
@@ -91,6 +89,7 @@ export default function PatientForm({
         }
       } else {
         delete values.patientId;
+        console.log(values);
         const { status } = await registerPatientData(values);
 
         if (status === 201) {
@@ -102,7 +101,7 @@ export default function PatientForm({
     },
   });
 
-  let { handleSubmit, handleChange, errors, values, touched, setFieldValue } =
+  const { handleSubmit, handleChange, errors, values, touched, setFieldValue } =
     formik;
 
   useEffect(() => {
@@ -128,12 +127,7 @@ export default function PatientForm({
       localStorage.setItem("patientData", JSON.stringify(values));
   }, [values]);
 
-  useEffect(() => {
-    if (values.birthDate?.length === 2 || values.birthDate?.length === 5) {
-      values = { ...values, birthDate: (values.birthDate += "/") };
-    }
-  }, [values.birthDate]);
-
+  
   function clearFields() {
     localStorage.removeItem("patientData");
     window.location.reload();
@@ -175,6 +169,7 @@ export default function PatientForm({
             <TextField
               id="birthDate"
               name="birthDate"
+              type="date"
               label="Data de Nascimento (DD/MM/AAAA)"
               value={values.birthDate}
               variant="standard"
@@ -182,9 +177,7 @@ export default function PatientForm({
               helperText={touched.birthDate && errors.birthDate}
               onChange={handleChange}
               inputProps={{ maxLength: 10 }}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              InputLabelProps={{ shrink: true }}
             />
           </FormControl>
           <FormControl

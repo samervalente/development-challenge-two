@@ -18,25 +18,24 @@ import {
   deletePatientsData,
 } from "../../services/patients";
 import { formatPatientData } from "../../utils/patientUtils";
-import { TPatients } from "../../@types/patient";
 import { IPatientData, IFormatedPatientData } from "../../interfaces/patients";
 
 export default function MyPatients() {
   const [fetchDependecy, setFetchDependecy] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
-  const [patients, setPatients] = useState<Array<TPatients>>([]);
-  const [patientDataUpdate, setPatientDataUpdate] = useState({});
-  const [selectionModel, setSelectionModel] = useState([]);
+  const [patients, setPatients] = useState<IFormatedPatientData[]>([]);
+  const [patientDataUpdate, setPatientDataUpdate] = useState<IPatientData>();
+  const [selectionModel, setSelectionModel] = useState<string[]>([]);
 
-  const [dialogOpenState, setDialogOpenState] = useState(false);
-  const [modalOpenState, setOpenModal] = useState(false);
-  const [backdropState, setOpenBackdrop] = useState(false);
+  const [dialogOpenState, setDialogOpenState] = useState<boolean>(false);
+  const [modalOpenState, setOpenModal] = useState<boolean>(false);
+  const [backdropState, setOpenBackdrop] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
       setIsFetching(true);
-      const patientsData: TPatients = await getAllPatients();
-      const formatedPatientData: IFormatedPatientData[] | any =
+      const patientsData: { patients: IPatientData[] } = await getAllPatients();
+      const formatedPatientData: IFormatedPatientData[] =
         patientsData?.patients.map((patient: IPatientData) =>
           formatPatientData(patient)
         );

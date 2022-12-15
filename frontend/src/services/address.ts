@@ -9,6 +9,7 @@ export interface IAddress {
   logradouro: string;
   complemento?: string;
   cep: string;
+  erro?: boolean;
 }
 
 async function getStates() {
@@ -25,18 +26,19 @@ async function getStates() {
 
 async function getPatientAddress(cep: number) {
   try {
-    const { data } = await axios.get<IAddress | null>(
+    const { data } = await axios.get<IAddress>(
       `https://viacep.com.br/ws/${cep}/json/`
     );
     return data;
   } catch (error) {
-    return { error };
+    toast.error("Não foi possível solicitar o endereço.");
+    return error;
   }
 }
 
 function onBlurCep(
   ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  setFieldValue: Function
+  setFieldValue
 ) {
   const { value } = ev.target;
 

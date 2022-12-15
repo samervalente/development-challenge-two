@@ -26,7 +26,7 @@ function formatPatientData(patientData: IPatientData): IFormatedPatientData {
 }
 
 async function validatePatientCEP(cep: number) {
-  const data: IAddress | any = await getPatientAddress(cep);
+  const data: IAddress | { erro: boolean } = await getPatientAddress(cep);
   if (data?.erro) {
     toast.error(
       "Não foi possível carregar o endereço do paciente através deste CEP."

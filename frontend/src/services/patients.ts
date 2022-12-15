@@ -8,10 +8,6 @@ import {
 } from "../@types/patient";
 import { AxiosResponse } from "axios";
 
-interface IDeletePatientId {
-  patientId: string;
-}
-
 async function getAllPatients(): Promise<TPatients> {
   try {
     const { data } = await api.get("/patients");
@@ -51,7 +47,7 @@ async function getPatientById(patientId: string) {
 
 async function updatePatientData(
   patientId: number,
-  newPatientData: TNewPatientData | any
+  newPatientData: TNewPatientData
 ): Promise<AxiosResponse> {
   try {
     const response = await api.patch(`/patients/${patientId}`, newPatientData);
@@ -68,9 +64,7 @@ async function updatePatientData(
   }
 }
 
-async function deletePatientsData(payload: {
-  patients: Array<IDeletePatientId>;
-}) {
+async function deletePatientsData(payload: { patients: string[] }) {
   try {
     const body = { data: payload };
     await api.delete("/patients", body);

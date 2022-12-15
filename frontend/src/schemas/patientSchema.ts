@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-const regexDate = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/;
+//const regexDate = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/;
 const regexCEP = /^[0-9]{5}[0-9]{3}$/;
 
 const patientSchema = Yup.object().shape({
@@ -10,9 +10,9 @@ const patientSchema = Yup.object().shape({
   email: Yup.string()
     .email("Insira um email válido")
     .required("O email do paciente é obrigatório"),
-  birthDate: Yup.string()
-    .matches(regexDate, "Data inválida")
-    .required("A data de nascimento do paciente é obrigatória"),
+  birthDate: Yup.string().required(
+    "A data de nascimento do paciente é obrigatória"
+  ),
   cep: Yup.string()
     .matches(regexCEP, "CEP inválido")
     .required("O CEP do paciente é obrigatório"),
