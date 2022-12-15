@@ -34,6 +34,7 @@ export default function PatientForm({
   setOpenBackdrop,
   setOpenModal,
   updatePatientList,
+  setSelectionModel,
   context,
 }: TPatientForm | any) {
   const [states, setStates] = useState<Array<IState>>([]);
@@ -84,6 +85,7 @@ export default function PatientForm({
         });
 
         if (status === 200) {
+          setSelectionModel([]);
           updatePatientList();
           setOpenModal(false);
         }
@@ -91,7 +93,10 @@ export default function PatientForm({
         delete values.patientId;
         const { status } = await registerPatientData(values);
 
-        status === 201 && navigate("/");
+        if (status === 201) {
+          localStorage.removeItem("patientData");
+          navigate("/");
+        }
       }
       setOpenBackdrop(false);
     },
@@ -133,7 +138,6 @@ export default function PatientForm({
     localStorage.removeItem("patientData");
     window.location.reload();
   }
-
 
   return (
     <>

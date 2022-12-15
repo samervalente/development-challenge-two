@@ -122,7 +122,10 @@ export default function MyPatients() {
         open={dialogOpenState}
         onClose={() => setDialogOpenState(false)}
       >
-        <DialogTitle>Deseja mesmo remover este paciente?</DialogTitle>
+        <DialogTitle>
+          Deseja mesmo remover
+          {selectionModel.length > 1 ? " estes pacientes" : " este paciente"}?
+        </DialogTitle>
         <DialogActions>
           <GenericButton autoFocus onClick={cancelDeletePatients}>
             Cancelar

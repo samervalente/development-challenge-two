@@ -1,7 +1,9 @@
-import { getPatientAddress } from "../services/address.ts";
+import { getPatientAddress } from "../services/address";
 import { toast } from "react-toastify";
+import { IAddress } from "../services/address";
+import { IPatientData, IFormatedPatientData } from "../interfaces/patients";
 
-function formatPatientData(patientData) {
+function formatPatientData(patientData: IPatientData): IFormatedPatientData {
   const {
     patientId,
     patientName,
@@ -23,16 +25,18 @@ function formatPatientData(patientData) {
   };
 }
 
-async function validatePatientCEP(cep) {
-  const data = await getPatientAddress(cep);
-  if (data.erro) {
-    toast.error("Não foi possível carregar o endereço deste CEP");
+async function validatePatientCEP(cep: number) {
+  const data: IAddress | any = await getPatientAddress(cep);
+  if (data?.erro) {
+    toast.error(
+      "Não foi possível carregar o endereço do paciente através deste CEP."
+    );
     return false;
   }
   return true;
 }
 
-async function formatUpdateData(patientData) {
+async function formatUpdateData(patientData: IPatientData) {
   const formatedData = Object.keys(patientData)
     .map((updateKey, index) => {
       const updateValue = Object.values(patientData)[index];

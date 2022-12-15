@@ -46,7 +46,7 @@ const StyledContainer = styled(Container)`
 `;
 
 const DeleteButton = styled(Button)`
-  width: 25%;
+  width: 22%;
   display: ${(props: TThemedButtonProps) =>
     props.selectionModel?.length > 0 ? "block" : "none"};
 

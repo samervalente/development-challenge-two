@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-type TButtonProps  = {
-  variant?: string
-}
+type TButtonProps = {
+  variant?: string;
+};
 
 const Button = styled.button`
   color: white;

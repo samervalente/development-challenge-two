@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { ChangeEvent } from "react";
 
-interface IAddress {
+export interface IAddress {
   uf: string;
   cidade: string;
   bairro: string;

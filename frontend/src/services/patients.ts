@@ -12,10 +12,6 @@ interface IDeletePatientId {
   patientId: string;
 }
 
-type TDeletePayload = {
-  patients: IDeletePatientId[];
-};
-
 async function getAllPatients(): Promise<TPatients> {
   try {
     const { data } = await api.get("/patients");
@@ -72,7 +68,9 @@ async function updatePatientData(
   }
 }
 
-async function deletePatientsData(payload: TDeletePayload) {
+async function deletePatientsData(payload: {
+  patients: Array<IDeletePatientId>;
+}) {
   try {
     const body = { data: payload };
     await api.delete("/patients", body);

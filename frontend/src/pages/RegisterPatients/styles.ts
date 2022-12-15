@@ -20,7 +20,6 @@ const Container = styled.div`
   }
 
   @media (max-width: 600px) {
-    gap: 0px;
 
     h1{
       font-size:25px;
