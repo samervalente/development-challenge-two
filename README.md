@@ -22,7 +22,7 @@ With the increasingly technological world, we need to make the information we de
 
 - REST APIs with AWS API Gateway
 - AWS Lambda for serverless
-- DynamoDB as cloud database
+- RDS DynamoDB as cloud database
 - Node.js with express
 - TypeScript
 - React
