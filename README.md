@@ -29,7 +29,7 @@ With the increasingly technological world, we need to make the information we de
 
 ***
 
-## :rocket: Rotas
+## :rocket: Routes
 
 ```yml
 POST /patients
