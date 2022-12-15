@@ -20,8 +20,8 @@ With the increasingly technological world, we need to make the information we de
 
 ## :computer:	 Technologies
 
-- REST APIs with API Gateway
-- AWS Lambda for serveless
+- REST APIs with AWS API Gateway
+- AWS Lambda for serverless
 - DynamoDB as cloud database
 - Node.js with express
 - TypeScript
