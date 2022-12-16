@@ -71,7 +71,6 @@ export default function PatientForm({
         return;
       }
 
-
       if (values.birthDate !== birthDate.current || context !== "update") {
         values = {
           ...values,

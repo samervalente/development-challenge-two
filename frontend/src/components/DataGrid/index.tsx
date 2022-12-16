@@ -22,7 +22,7 @@ export default function DataGridComponen({
       editable: true,
       type: "date",
     },
-    { field: "address", headerName: "Endereço", width: 350 },
+    { field: "address", headerName: "Endereço", width: 500 },
   ];
 
   return (
