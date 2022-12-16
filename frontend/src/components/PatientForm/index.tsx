@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import StyledForm from "./styles";
 import Button from "../Button/index";
 
@@ -30,7 +30,7 @@ export default function PatientForm({
   context,
 }) {
   const [states, setStates] = useState<Array<IState>>([]);
-
+  const birthDate = useRef("");
   const navigate = useNavigate();
 
   function getInitialValues() {
@@ -55,6 +55,7 @@ export default function PatientForm({
         return patientData;
       }
     }
+    birthDate.current = updatePatientData.birthDate;
     return updatePatientData;
   }
 
@@ -70,13 +71,17 @@ export default function PatientForm({
         return;
       }
 
-      values = {
-        ...values,
-        birthDate: dayjs(values.birthDate).format("DD/MM/YYYY"),
-      };
+
+      if (values.birthDate !== birthDate.current || context !== "update") {
+        values = {
+          ...values,
+          birthDate: dayjs(values.birthDate).format("DD/MM/YYYY"),
+        };
+      }
 
       if (context === "update") {
         const patientId = values.patientId;
+
         const updatedValues = await formatUpdateData(values);
         const { status } = await updatePatient(patientId, {
           newPatientData: updatedValues,
@@ -89,7 +94,7 @@ export default function PatientForm({
         }
       } else {
         delete values.patientId;
-        console.log(values);
+
         const { status } = await registerPatientData(values);
 
         if (status === 201) {
@@ -127,7 +132,6 @@ export default function PatientForm({
       localStorage.setItem("patientData", JSON.stringify(values));
   }, [values]);
 
-  
   function clearFields() {
     localStorage.removeItem("patientData");
     window.location.reload();

@@ -19,6 +19,7 @@ import {
 } from "../../services/patients";
 import { formatPatientData } from "../../utils/patientUtils";
 import { IPatientData, IFormatedPatientData } from "../../interfaces/patients";
+import dayjs from "dayjs";
 
 export default function MyPatients() {
   const [fetchDependecy, setFetchDependecy] = useState(false);
@@ -55,7 +56,6 @@ export default function MyPatients() {
   async function openUpdateModal() {
     const patientId = selectionModel[0];
     const patient = await getPatientById(patientId);
-
     setPatientDataUpdate(patient);
     setOpenModal(true);
     return patient;

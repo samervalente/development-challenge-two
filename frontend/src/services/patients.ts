@@ -47,13 +47,14 @@ async function getPatientById(patientId: string) {
 
 async function updatePatientData(
   patientId: number,
-  newPatientData: TNewPatientData
+  newPatientData: TNewPatientData | any
 ): Promise<AxiosResponse> {
   try {
     const response = await api.patch(`/patients/${patientId}`, newPatientData);
     toast.success("Os dados do paciente foram atualizados com sucesso.");
     return response;
   } catch (error) {
+    
     if (error.response?.status === 409) {
       toast.error("Este email já está cadastrado no sistema.");
     } else if (error.response?.status === 422) {

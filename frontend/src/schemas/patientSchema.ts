@@ -1,6 +1,5 @@
 import * as Yup from "yup";
 
-//const regexDate = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/;
 const regexCEP = /^[0-9]{5}[0-9]{3}$/;
 
 const patientSchema = Yup.object().shape({
